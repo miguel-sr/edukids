@@ -2,10 +2,15 @@ import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, Text, View, ImageBackground, TouchableOpacity } from 'react-native';
 import logo from '../../assets/BackgroundCeu.png';
+import { useNavigation } from '@react-navigation/native';
+
 
 export default function App() {
+  const navigation:any = useNavigation();
+
   const handleButtonPress = (menuOption: string) => {
     // Adicione aqui a lógica para cada botão
+    navigation.navigate("TelaInicialJogo"); // "TelaInicial" é o nome da rota, não o componente
     console.log(`Botão ${menuOption} pressionado`);
   };
 
