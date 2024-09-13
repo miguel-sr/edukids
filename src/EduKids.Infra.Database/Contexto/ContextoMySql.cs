@@ -1,5 +1,7 @@
-﻿using EduKids.Dominio.Modelos;
-using System.Data.Entity;
+﻿using EduKids.Comum;
+using EduKids.Dominio.Excecoes;
+using EduKids.Dominio.Modelos;
+using Microsoft.EntityFrameworkCore;
 
 namespace EduKids.Infra.Database.Contexto
 {
@@ -11,15 +13,24 @@ namespace EduKids.Infra.Database.Contexto
 
         public ContextoMySql() : base()
         {
-
+            Database.EnsureCreated();
         }
 
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<Aluno>().MapToStoredProcedures();
-            modelBuilder.Entity<Coordenador>().MapToStoredProcedures();
-            modelBuilder.Entity<Professor>().MapToStoredProcedures();
+            base.OnConfiguring(optionsBuilder);
+
+            optionsBuilder.UseMySQL(ObterStringDeConexao());
+        }
+
+        private string ObterStringDeConexao()
+        {
+            var uriDeConexao = Environment.GetEnvironmentVariable(Constantes.CHAVE_STRING_CONEXAO);
+
+            if (string.IsNullOrEmpty(uriDeConexao))
+                throw new VariavelDeAmbienteInvalidaException(Constantes.CHAVE_STRING_CONEXAO);
+
+            return uriDeConexao;
         }
     }
 }

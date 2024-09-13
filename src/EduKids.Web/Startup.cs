@@ -15,6 +15,8 @@
                         policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
                     });
             });
+
+            ModuloDeDependencias.VincularServicos(services);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

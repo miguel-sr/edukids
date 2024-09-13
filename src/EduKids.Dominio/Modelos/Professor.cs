@@ -1,6 +1,6 @@
 ﻿namespace EduKids.Dominio.Modelos
 {
-    public class Professor
+    public class Professor : Usuario
     {
         public required string Cpf { get; set; }
     }
