@@ -42,7 +42,7 @@ namespace EduKids.Infra.Database.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Alunos");
+                    b.ToTable("Alunos", (string)null);
                 });
 
             modelBuilder.Entity("EduKids.Dominio.Modelos.Coordenador", b =>
@@ -69,7 +69,7 @@ namespace EduKids.Infra.Database.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Coordenadores");
+                    b.ToTable("Coordenadores", (string)null);
                 });
 
             modelBuilder.Entity("EduKids.Dominio.Modelos.Professor", b =>
@@ -94,13 +94,9 @@ namespace EduKids.Infra.Database.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("Teste")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
                     b.HasKey("Id");
 
-                    b.ToTable("Professores");
+                    b.ToTable("Professores", (string)null);
                 });
 #pragma warning restore 612, 618
         }
