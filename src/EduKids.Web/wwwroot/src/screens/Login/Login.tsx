@@ -1,5 +1,5 @@
-import { StatusBar } from 'expo-status-bar'
-import React, { useState } from 'react'
+import { StatusBar } from 'expo-status-bar';
+import React, { useState } from 'react';
 import {
   StyleSheet,
   Text,
@@ -7,19 +7,19 @@ import {
   ImageBackground,
   TextInput,
   TouchableOpacity,
-} from 'react-native'
-import logo from '../../assets/Login.png'
-import { useNavigation } from '@react-navigation/native'
+} from 'react-native';
+import logo from '../../assets/Login.png';
+import { useNavigation } from '@react-navigation/native';
 
 export default function App() {
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
 
-  const navigation: any = useNavigation()
+  const navigation: any = useNavigation();
 
   const handleLogin = () => {
-    navigation.navigate('TelaInicial') // "TelaInicial" é o nome da rota, não o componente
-  }
+    navigation.navigate('TelaInicial'); // "TelaInicial" é o nome da rota, não o componente
+  };
 
   return (
     <ImageBackground source={logo} style={styles.backgroundImage}>
@@ -50,7 +50,7 @@ export default function App() {
         <StatusBar style="auto" />
       </View>
     </ImageBackground>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
@@ -96,4 +96,4 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
   },
-})
+});

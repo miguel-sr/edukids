@@ -1,31 +1,31 @@
-import React from 'react'
-import { StatusBar } from 'expo-status-bar'
+import React from 'react';
+import { StatusBar } from 'expo-status-bar';
 import {
   StyleSheet,
   Text,
   View,
   ImageBackground,
   TouchableOpacity,
-} from 'react-native'
-import { useFonts } from 'expo-font'
-import logo from '../../assets/BackgroundCeu.png'
+} from 'react-native';
+import { useFonts } from 'expo-font';
+import logo from '../../assets/BackgroundCeu.png';
 
 export default function TelaInicialAluno() {
   const [fontsLoaded] = useFonts({
     KaushanScript: require('../../assets/fonts/KaushanScript.ttf'),
-  })
+  });
 
   if (!fontsLoaded) {
     return (
       <View>
         <Text>Carregando...</Text>
       </View>
-    )
+    );
   }
 
   const handleButtonPress = (menuOption: string) => {
-    console.log(`Botão ${menuOption} pressionado`)
-  }
+    console.log(`Botão ${menuOption} pressionado`);
+  };
 
   return (
     <ImageBackground source={logo} style={styles.backgroundImage}>
@@ -69,7 +69,7 @@ export default function TelaInicialAluno() {
         <StatusBar style="auto" />
       </View>
     </ImageBackground>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
@@ -106,4 +106,4 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontFamily: 'KaushanScript',
   },
-})
+});

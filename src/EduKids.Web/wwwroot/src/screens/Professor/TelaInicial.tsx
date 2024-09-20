@@ -1,21 +1,21 @@
-import { StatusBar } from 'expo-status-bar'
-import React from 'react'
+import { StatusBar } from 'expo-status-bar';
+import React from 'react';
 import {
   StyleSheet,
   Text,
   View,
   ImageBackground,
   TouchableOpacity,
-} from 'react-native'
-import logo from '../../assets/BackgroundCeu.png'
-import { useNavigation } from '@react-navigation/native'
+} from 'react-native';
+import logo from '../../assets/BackgroundCeu.png';
+import { useNavigation } from '@react-navigation/native';
 
 export default function TelaInicial() {
-  const navigation: any = useNavigation()
+  const navigation: any = useNavigation();
 
   const handleButtonPress = (menuOption: string) => {
-    navigation.navigate('TelaInicialJogo')
-  }
+    navigation.navigate('TelaInicialJogo');
+  };
 
   return (
     <ImageBackground source={logo} style={styles.backgroundImage}>
@@ -48,7 +48,7 @@ export default function TelaInicial() {
         <StatusBar style="auto" />
       </View>
     </ImageBackground>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
@@ -85,4 +85,4 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
   },
-})
+});
