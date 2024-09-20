@@ -41,6 +41,12 @@ export default function App() {
         <TouchableOpacity style={styles.button} onPress={handleLogin}>
           <Text style={styles.buttonText}>Login</Text>
         </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.navigate('TelaInicialAluno')}
+        >
+          <Text style={styles.buttonText}>Login Aluno</Text>
+        </TouchableOpacity>
         <StatusBar style="auto" />
       </View>
     </ImageBackground>

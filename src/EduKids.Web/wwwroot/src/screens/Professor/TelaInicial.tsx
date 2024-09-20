@@ -9,7 +9,7 @@ import {
 } from 'react-native'
 import logo from '../../assets/BackgroundCeu.png'
 
-export default function App() {
+export default function TelaInicial() {
   const handleButtonPress = (menuOption: string) => {
     // Adicione aqui a lógica para cada botão
     console.log(`Botão ${menuOption} pressionado`)
