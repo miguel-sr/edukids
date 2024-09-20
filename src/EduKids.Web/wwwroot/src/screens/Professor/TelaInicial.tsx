@@ -8,11 +8,13 @@ import {
   TouchableOpacity,
 } from 'react-native'
 import logo from '../../assets/BackgroundCeu.png'
+import { useNavigation } from '@react-navigation/native'
 
 export default function TelaInicial() {
+  const navigation: any = useNavigation()
+
   const handleButtonPress = (menuOption: string) => {
-    // Adicione aqui a lógica para cada botão
-    console.log(`Botão ${menuOption} pressionado`)
+    navigation.navigate('TelaInicialJogo')
   }
 
   return (
