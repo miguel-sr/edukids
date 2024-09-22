@@ -6,6 +6,7 @@ import TelaInicial from '../screens/Professor/TelaInicial'
 import TelaInicialAluno from '../screens/Aluno/TelaInicialAluno'
 import GameArea from '../screens/Aluno/GameArea/gameArea';
 import introductionGame from '../screens/Aluno/GameArea/introductionGame';
+import EscolhaTurma from '../screens/Professor/EscolhaTurma'
 
 export type RootStackParamList = {
   Login: undefined;
@@ -13,6 +14,7 @@ export type RootStackParamList = {
   TelaInicialAluno: undefined;
   TelaInicialJogo: undefined;
   introductionGame: undefined;
+  EscolhaTurma: undefined;
 };
 
 const Stack = createStackNavigator<RootStackParamList>()
@@ -38,6 +40,7 @@ export default function AppNavigator() {
         />
         <Stack.Screen name="TelaInicialJogo" component={GameArea} options={{ title: 'Tela Inicial', headerShown: false }} />
         <Stack.Screen name="introductionGame" component={introductionGame} options={{ title: 'Tela Inicial', headerShown: false }} />
+        <Stack.Screen name="EscolhaTurma" component={EscolhaTurma} options={{ title: 'Tela Inicial', headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>
   )

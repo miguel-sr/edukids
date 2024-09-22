@@ -10,44 +10,43 @@ import {
 import logo from '../../assets/BackgroundCeu.png';
 import { useNavigation } from '@react-navigation/native';
 
-export default function TelaInicial() {
+export default function EscolhaTurma() {
   const navigation: any = useNavigation();
 
   const handleButtonPress = (menuOption: string) => {
     navigation.navigate('TelaInicialJogo');
   };
 
-  const handleButtonTurmas = (menuOption: string) => {
-    navigation.navigate('EscolhaTurma');
-  };
-
   return (
     <ImageBackground source={logo} style={styles.backgroundImage}>
       <View style={styles.container}>
-        <Text style={styles.title}>Seja bem-vindo(a), Professor!</Text>
+        <Text style={styles.title}>Escolha sua turma, Professor!</Text>
         <TouchableOpacity
           style={styles.button}
           onPress={() => handleButtonPress('Turmas')}
         >
-          <Text style={styles.buttonText}>Acompanhar Turmas</Text>
+          <Text style={styles.buttonText}>1º Ano - A</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => handleButtonTurmas('Gerar Matéria')}
+          onPress={() => handleButtonPress('Gerar Matéria')}
         >
-          <Text style={styles.buttonText}>Gamificar Matéria</Text>
+          <Text style={styles.buttonText}>2º Ano - A</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
           onPress={() => handleButtonPress('Configurações')}
         >
-          <Text style={styles.buttonText}>Adicionar nova matéria</Text>
+          <Text style={styles.buttonText}>3º Ano - B</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
           onPress={() => handleButtonPress('Relatórios')}
         >
-          <Text style={styles.buttonText}>Configurações</Text>
+            <Text style={styles.title}>Adicionar uma nova turma:</Text>
+            import Turma { TrumaState } from "";
+
+        
         </TouchableOpacity>
         <StatusBar style="auto" />
       </View>
