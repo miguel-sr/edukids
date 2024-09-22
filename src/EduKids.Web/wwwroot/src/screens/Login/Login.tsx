@@ -1,6 +1,13 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, ImageBackground, TextInput, TouchableOpacity } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  ImageBackground,
+  TextInput,
+  TouchableOpacity,
+} from 'react-native';
 import logo from '../../assets/Login.png';
 import { useNavigation } from '@react-navigation/native';
 
@@ -8,10 +15,10 @@ export default function App() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  const navigation:any = useNavigation();
+  const navigation: any = useNavigation();
 
   const handleLogin = () => {
-    navigation.navigate("TelaInicial"); // "TelaInicial" é o nome da rota, não o componente
+    navigation.navigate('TelaInicial'); // "TelaInicial" é o nome da rota, não o componente
   };
 
   return (
@@ -33,6 +40,12 @@ export default function App() {
         />
         <TouchableOpacity style={styles.button} onPress={handleLogin}>
           <Text style={styles.buttonText}>Login</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.navigate('TelaInicialAluno')}
+        >
+          <Text style={styles.buttonText}>Login Aluno</Text>
         </TouchableOpacity>
         <StatusBar style="auto" />
       </View>
