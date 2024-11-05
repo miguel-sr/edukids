@@ -10,6 +10,9 @@ namespace EduKids.Infra.Database.Contexto
         public DbSet<Aluno> Alunos { get; set; }
         public DbSet<Coordenador> Coordenadores { get; set; }
         public DbSet<Professor> Professores { get; set; }
+        public DbSet<Escola> Escolas { get; set; }
+        public DbSet<Turma> Turmas { get; set; }
+        public DbSet<Disciplina> Disciplinas { get; set; }
 
         public ContextoMySql() : base()
         {
