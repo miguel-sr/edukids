@@ -1,5 +1,6 @@
 ﻿using EduKids.Dominio.IRepositorios;
 using EduKids.Dominio.Modelos;
+using EduKids.Servico.Autenticacao;
 using EduKids.Servico.Coordenadores;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -9,7 +10,7 @@ namespace EduKids.Web.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]
-    public class CoordenadorController(ICoordenadorRepositorio repositorio) : ControllerBase
+    public class CoordenadorController(ICoordenadorRepositorio repositorio, ServicoDeAutenticacao<Coordenador> servicoDeAutenticacao) : ControllerBase
     {
         private readonly ServicoDeCoordenadores _servicoDeCoordenadores = new(repositorio);
 
@@ -127,6 +128,27 @@ namespace EduKids.Web.Controllers
                 return StatusCode((int)HttpStatusCode.InternalServerError, erro.Message);
             }
         }
-    }
 
+        [HttpPost("login")]
+        [AllowAnonymous]
+        public async Task<IActionResult> Login([FromBody] DadosDeAutenticacao dados)
+        {
+            try
+            {
+                var token = await servicoDeAutenticacao.Autenticar(dados);
+
+                return Ok(token);
+            }
+            catch (HttpRequestException ex)
+            {
+                var status = (int)(ex.StatusCode ?? HttpStatusCode.InternalServerError);
+
+                return StatusCode(status, ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+    }
 }
