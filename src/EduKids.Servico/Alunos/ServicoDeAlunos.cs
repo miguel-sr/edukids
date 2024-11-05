@@ -4,7 +4,7 @@ using EduKids.Dominio.Modelos;
 
 namespace EduKids.Servico.Alunos
 {
-    public class ServicoDeAlunos(IAlunosRepositorio repositorio) : IAlunosRepositorio
+    public class ServicoDeAlunos(IAlunoRepositorio repositorio) : IAlunoRepositorio
     {
         public async Task<Aluno> Adicionar(Aluno entidade)
         {

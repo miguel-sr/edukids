@@ -2,7 +2,7 @@
 
 namespace EduKids.Dominio.IRepositorios
 {
-    public interface IAlunosRepositorio : IUsuarioRepositorio<Aluno>
+    public interface IAlunoRepositorio : IUsuarioRepositorio<Aluno>
     {
     }
 }

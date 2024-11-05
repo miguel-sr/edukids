@@ -16,7 +16,6 @@ namespace EduKids.Infra.Database.Contexto
 
         public ContextoMySql() : base()
         {
-            Database.EnsureCreated();
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

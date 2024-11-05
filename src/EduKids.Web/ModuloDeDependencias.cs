@@ -9,8 +9,8 @@ namespace EduKids.Web
     {
         public static void VincularServicos(IServiceCollection services)
         {
-            services.AddScoped<IAlunosRepositorio, AlunosRepositorio>();
-            services.AddScoped<IUsuarioRepositorio<Aluno>, AlunosRepositorio>();
+            services.AddScoped<IAlunoRepositorio, AlunoRepositorio>();
+            services.AddScoped<IUsuarioRepositorio<Aluno>, AlunoRepositorio>();
             services.AddScoped<ServicoDeAutenticacao<Aluno>>();
 
         }

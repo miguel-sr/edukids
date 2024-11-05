@@ -1,5 +1,4 @@
-﻿using EduKids.Comum;
-using EduKids.Dominio.Excecoes;
+﻿using EduKids.Dominio.Excecoes;
 using EduKids.Dominio.IRepositorios;
 using EduKids.Dominio.Modelos;
 using EduKids.Infra.Database.Contexto;
