@@ -2,33 +2,33 @@
 using EduKids.Dominio.IRepositorios;
 using EduKids.Dominio.Modelos;
 
-namespace EduKids.Servico.Alunos
+namespace EduKids.Servico.Coordenadores
 {
-    public class ServicoDeAlunos(IAlunoRepositorio repositorio) : IAlunoRepositorio
+    public class ServicoDeProfessores(IProfessorRepositorio repositorio) : IProfessorRepositorio
     {
-        public async Task<Aluno> Adicionar(Aluno entidade)
+        public async Task<Professor> Adicionar(Professor entidade)
         {
             entidade.Senha = HasherSenha.GerarHash(entidade.Senha);
 
             return await repositorio.Adicionar(entidade);
         }
 
-        public async Task Atualizar(Aluno entidade)
+        public async Task Atualizar(Professor entidade)
         {
             await repositorio.Atualizar(entidade);
         }
 
-        public async Task<Aluno> ObterPorId(int id)
+        public async Task<Professor> ObterPorId(int id)
         {
             return await repositorio.ObterPorId(id);
         }
 
-        public async Task<IEnumerable<Aluno>> ObterTodos()
+        public async Task<IEnumerable<Professor>> ObterTodos()
         {
             return await repositorio.ObterTodos();
         }
 
-        public async Task<Aluno> ObterUsuarioPorLoginESenha(string login, string senha)
+        public async Task<Professor> ObterUsuarioPorLoginESenha(string login, string senha)
         {
             return await repositorio.ObterUsuarioPorLoginESenha(login, senha);
         }

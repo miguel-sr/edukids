@@ -1,7 +1,7 @@
 ﻿using EduKids.Dominio.IRepositorios;
 using EduKids.Dominio.Modelos;
-using EduKids.Servico.Alunos;
 using EduKids.Servico.Autenticacao;
+using EduKids.Servico.Coordenadores;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
@@ -10,9 +10,9 @@ namespace EduKids.Web.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]
-    public class AlunoController(IAlunoRepositorio repositorio, ServicoDeAutenticacao<Aluno> servicoDeAutenticacao) : ControllerBase
+    public class ProfessorController(IProfessorRepositorio repositorio, ServicoDeAutenticacao<Professor> servicoDeAutenticacao) : ControllerBase
     {
-        private readonly ServicoDeAlunos _servicoDeAlunos = new(repositorio);
+        private readonly ServicoDeProfessores _servicoDeProfessores = new(repositorio);
 
         [HttpGet]
         [AllowAnonymous]
@@ -20,9 +20,9 @@ namespace EduKids.Web.Controllers
         {
             try
             {
-                var alunos = await _servicoDeAlunos.ObterTodos();
+                var professores = await _servicoDeProfessores.ObterTodos();
 
-                return Ok(alunos);
+                return Ok(professores);
             }
             catch (HttpRequestException ex)
             {
@@ -42,9 +42,9 @@ namespace EduKids.Web.Controllers
         {
             try
             {
-                var aluno = await _servicoDeAlunos.ObterPorId(id);
+                var professor = await _servicoDeProfessores.ObterPorId(id);
 
-                return Ok(aluno);
+                return Ok(professor);
             }
             catch (HttpRequestException erro)
             {
@@ -60,17 +60,17 @@ namespace EduKids.Web.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> Criar([FromBody] Aluno entidade)
+        public async Task<IActionResult> Criar([FromBody] Professor entidade)
         {
             try
             {
-                var aluno = await _servicoDeAlunos.Adicionar(entidade);
+                var professor = await _servicoDeProfessores.Adicionar(entidade);
 
-                return Created($"aluno/{aluno.Id}", new
+                return Created($"professor/{professor.Id}", new
                 {
-                    id = aluno.Id,
-                    nome = aluno.Nome,
-                    matricula = aluno.Matricula,
+                    id = professor.Id,
+                    nome = professor.Nome,
+                    cpf = professor.Cpf,
                 });
             }
             catch (HttpRequestException erro)
@@ -87,11 +87,11 @@ namespace EduKids.Web.Controllers
 
         [HttpPut]
         [AllowAnonymous]
-        public async Task<IActionResult> Atualizar([FromBody] Aluno aluno)
+        public async Task<IActionResult> Atualizar([FromBody] Professor professor)
         {
             try
             {
-                await _servicoDeAlunos.Atualizar(aluno);
+                await _servicoDeProfessores.Atualizar(professor);
 
                 return NoContent();
             }
@@ -113,7 +113,7 @@ namespace EduKids.Web.Controllers
         {
             try
             {
-                await _servicoDeAlunos.Remover(id);
+                await _servicoDeProfessores.Remover(id);
 
                 return NoContent();
             }
@@ -151,4 +151,5 @@ namespace EduKids.Web.Controllers
             }
         }
     }
+
 }

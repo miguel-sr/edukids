@@ -1,7 +1,6 @@
 ﻿using EduKids.Dominio.IRepositorios;
 using EduKids.Dominio.Modelos;
-using EduKids.Servico.Alunos;
-using EduKids.Servico.Autenticacao;
+using EduKids.Servico.Disciplinas;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
@@ -10,9 +9,9 @@ namespace EduKids.Web.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]
-    public class AlunoController(IAlunoRepositorio repositorio, ServicoDeAutenticacao<Aluno> servicoDeAutenticacao) : ControllerBase
+    public class DisciplinaController(IDisciplinaRepositorio repositorio) : ControllerBase
     {
-        private readonly ServicoDeAlunos _servicoDeAlunos = new(repositorio);
+        private readonly ServicoDeDisciplinas _servicoDeDisciplinas = new(repositorio);
 
         [HttpGet]
         [AllowAnonymous]
@@ -20,9 +19,9 @@ namespace EduKids.Web.Controllers
         {
             try
             {
-                var alunos = await _servicoDeAlunos.ObterTodos();
+                var disciplinas = await _servicoDeDisciplinas.ObterTodos();
 
-                return Ok(alunos);
+                return Ok(disciplinas);
             }
             catch (HttpRequestException ex)
             {
@@ -42,9 +41,9 @@ namespace EduKids.Web.Controllers
         {
             try
             {
-                var aluno = await _servicoDeAlunos.ObterPorId(id);
+                var disciplina = await _servicoDeDisciplinas.ObterPorId(id);
 
-                return Ok(aluno);
+                return Ok(disciplina);
             }
             catch (HttpRequestException erro)
             {
@@ -60,18 +59,13 @@ namespace EduKids.Web.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> Criar([FromBody] Aluno entidade)
+        public async Task<IActionResult> Criar([FromBody] Disciplina disciplina)
         {
             try
             {
-                var aluno = await _servicoDeAlunos.Adicionar(entidade);
+                var disciplinaDoBanco = await _servicoDeDisciplinas.Adicionar(disciplina);
 
-                return Created($"aluno/{aluno.Id}", new
-                {
-                    id = aluno.Id,
-                    nome = aluno.Nome,
-                    matricula = aluno.Matricula,
-                });
+                return Created($"aluno/{disciplina.Id}", disciplinaDoBanco);
             }
             catch (HttpRequestException erro)
             {
@@ -87,11 +81,11 @@ namespace EduKids.Web.Controllers
 
         [HttpPut]
         [AllowAnonymous]
-        public async Task<IActionResult> Atualizar([FromBody] Aluno aluno)
+        public async Task<IActionResult> Atualizar([FromBody] Disciplina disciplina)
         {
             try
             {
-                await _servicoDeAlunos.Atualizar(aluno);
+                await _servicoDeDisciplinas.Atualizar(disciplina);
 
                 return NoContent();
             }
@@ -113,7 +107,7 @@ namespace EduKids.Web.Controllers
         {
             try
             {
-                await _servicoDeAlunos.Remover(id);
+                await _servicoDeDisciplinas.Remover(id);
 
                 return NoContent();
             }
@@ -126,28 +120,6 @@ namespace EduKids.Web.Controllers
             catch (Exception erro)
             {
                 return StatusCode((int)HttpStatusCode.InternalServerError, erro.Message);
-            }
-        }
-
-        [HttpPost("login")]
-        [AllowAnonymous]
-        public async Task<IActionResult> Login([FromBody] DadosDeAutenticacao dados)
-        {
-            try
-            {
-                var token = await servicoDeAutenticacao.Autenticar(dados);
-
-                return Ok(token);
-            }
-            catch (HttpRequestException ex)
-            {
-                var status = (int)(ex.StatusCode ?? HttpStatusCode.InternalServerError);
-
-                return StatusCode(status, ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
             }
         }
     }

@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EduKids.Infra.Repositorios
 {
-    public class AlunosRepositorio(ContextoMySql contexto) : IAlunosRepositorio
+    public class AlunoRepositorio(ContextoMySql contexto) : IAlunoRepositorio
     {
         public async Task<Aluno> Adicionar(Aluno entidade)
         {
