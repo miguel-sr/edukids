@@ -1,6 +1,6 @@
 // src/resources.js
 
-export const BASE_URL = "https://localhost:7293/api/v1"; 
+export const BASE_URL = "https://192.168.0.17:7293/api/v1"; 
 
 export const ENDPOINTS = {
   LOGIN: `${BASE_URL}/professor/login`,
@@ -10,3 +10,4 @@ export const ENDPOINTS = {
   ATUALIZAR: `${BASE_URL}/professor`,
   REMOVER: (id: any) => `${BASE_URL}/professor?id=${id}`,
 };
+
