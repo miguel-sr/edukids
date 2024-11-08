@@ -67,9 +67,6 @@ export default function TelaInicial() {
         <TouchableOpacity style={styles.button} onPress={() => handleButtonPress('Configurações')}>
           <Text style={styles.buttonText}>Configurações</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={() => handleButtonPress('Teste')}>
-          <Text style={styles.buttonText}>Teste</Text>
-        </TouchableOpacity>
         <StatusBar style="auto" />
       </View>
     </ImageBackground>

@@ -23,6 +23,15 @@ export default function App() {
     navigation.navigate('TelaInicial'); // "TelaInicial" é o nome da rota, não o componente
   };
 
+  const validaUsuario = (e:any) => {
+    console.log(e)
+    if(e === "Aluno"){
+      navigation.navigate('TelaInicialAluno')
+    }else{
+      navigation.navigate('TelaInicial')
+    } 
+  }
+
   return (
     <ImageBackground source={logo} style={styles.backgroundImage}>
       <View style={styles.container}>
@@ -49,7 +58,10 @@ export default function App() {
         <Picker
           selectedValue={userRole}
           style={styles.picker}
-          onValueChange={(itemValue) => setUserRole(itemValue)}
+          onValueChange={(itemValue) => {
+            setUserRole(itemValue);
+            validaUsuario(itemValue); 
+          }}
         >
           <Picker.Item label="Aluno" value="Aluno" />
           <Picker.Item label="Professor" value="Professor" />
@@ -60,12 +72,7 @@ export default function App() {
         <TouchableOpacity style={styles.button} onPress={handleLogin}>
           <Text style={styles.buttonText}>Login</Text>
         </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => navigation.navigate('TelaInicialAluno')}
-        >
-          <Text style={styles.buttonText}>Login Aluno</Text>
-        </TouchableOpacity>
+
 
         <StatusBar style="auto" />
       </View>

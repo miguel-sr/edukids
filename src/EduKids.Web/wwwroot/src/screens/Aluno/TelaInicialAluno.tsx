@@ -9,8 +9,10 @@ import {
 } from 'react-native';
 import { useFonts } from 'expo-font';
 import logo from '../../assets/BackgroundCeu.png';
+import { useNavigation } from '@react-navigation/native';
 
 export default function TelaInicialAluno() {
+  const navigation: any = useNavigation();
   const [fontsLoaded] = useFonts({
     KaushanScript: require('../../assets/fonts/KaushanScript.ttf'),
   });
@@ -25,6 +27,8 @@ export default function TelaInicialAluno() {
 
   const handleButtonPress = (menuOption: string) => {
     console.log(`Botão ${menuOption} pressionado`);
+    navigation.navigate("TelaInicialJogo"); // "TelaInicial" é o nome da rota, não o componente
+
   };
 
   return (
