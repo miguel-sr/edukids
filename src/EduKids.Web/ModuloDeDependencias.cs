@@ -12,7 +12,6 @@ namespace EduKids.Web
             services.AddScoped<IAlunoRepositorio, AlunoRepositorio>();
             services.AddScoped<IUsuarioRepositorio<Aluno>, AlunoRepositorio>();
             services.AddScoped<ServicoDeAutenticacao<Aluno>>();
-
         }
     }
 }

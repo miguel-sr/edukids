@@ -1,9 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EduKids.Dominio.Modelos
 {
     public class Nota
     {
+        [Key]
         public int Id { get; set; }
 
         [ForeignKey(nameof(Modelos.Aluno))]

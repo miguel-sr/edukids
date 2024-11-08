@@ -2,6 +2,7 @@
 using EduKids.Dominio.Excecoes;
 using EduKids.Dominio.Modelos;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 
 namespace EduKids.Infra.Database.Contexto
 {
@@ -13,6 +14,9 @@ namespace EduKids.Infra.Database.Contexto
         public DbSet<Escola> Escolas { get; set; }
         public DbSet<Turma> Turmas { get; set; }
         public DbSet<Disciplina> Disciplinas { get; set; }
+        public DbSet<Nota> Notas { get; set; }
+        public DbSet<Pergunta> Perguntas { get; set; }
+        public DbSet<Resposta> Respostas { get; set; }
 
         public ContextoMySql() : base()
         {
