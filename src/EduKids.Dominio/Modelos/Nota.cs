@@ -2,13 +2,13 @@
 
 namespace EduKids.Dominio.Modelos
 {
-    public class Professor : Usuario
+    public class Nota
     {
-        public required string Cpf { get; set; }
+        public int Id { get; set; }
 
-        [ForeignKey(nameof(Modelos.Escola))]
-        public int IdEscola { get; set; }
-        public Escola Escola { get; set; }
+        [ForeignKey(nameof(Modelos.Aluno))]
+        public int IdAluno { get; set; }
+        public Aluno Aluno { get; set; }
 
         [ForeignKey(nameof(Modelos.Disciplina))]
         public int IdDisciplina { get; set; }

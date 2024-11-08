@@ -6,11 +6,11 @@ namespace EduKids.Dominio.Modelos
     {
         public required string Matricula { get; set; }
 
-        [ForeignKey(nameof(Escola))]
+        [ForeignKey(nameof(Modelos.Escola))]
         public int IdEscola { get; set; }
         public Escola Escola { get; set; }
 
-        [ForeignKey(nameof(Turma))]
+        [ForeignKey(nameof(Modelos.Turma))]
         public int IdTurma { get; set; }
         public Turma Turma { get; set; }
     }

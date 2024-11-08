@@ -6,7 +6,7 @@ namespace EduKids.Dominio.Modelos
     {
         public required string Cpf { get; set; }
 
-        [ForeignKey(nameof(Escola))]
+        [ForeignKey(nameof(Modelos.Escola))]
         public int IdEscola { get; set; }
         public Escola Escola { get; set; }
     }
