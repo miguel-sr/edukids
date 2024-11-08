@@ -1,10 +1,10 @@
 ﻿using EduKids.Comum;
 using EduKids.Dominio.Excecoes;
 using EduKids.Infra.Database.Contexto;
-using EduKids.Servico.Autenticacao;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace EduKids.Web
 {
@@ -94,11 +94,21 @@ namespace EduKids.Web
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(ServicoToken.ObterChaveSecreta()),
+                    IssuerSigningKey = new SymmetricSecurityKey(ObterChaveSecreta()),
                     ValidateIssuer = false,
                     ValidateAudience = false
                 };
             });
+        }
+
+        private byte[] ObterChaveSecreta()
+        {
+            var chaveSecreta = Environment.GetEnvironmentVariable(Constantes.CHAVE_JWT_SECRET);
+
+            if (string.IsNullOrEmpty(chaveSecreta))
+                throw new VariavelDeAmbienteInvalidaException(Constantes.CHAVE_JWT_SECRET);
+
+            return Encoding.ASCII.GetBytes(chaveSecreta);
         }
     }
 }
