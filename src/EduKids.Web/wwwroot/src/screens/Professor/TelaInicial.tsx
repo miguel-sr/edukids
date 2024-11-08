@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
+import React, { useState } from 'react';
 import {
   StyleSheet,
   Text,
@@ -9,12 +9,37 @@ import {
 } from 'react-native';
 import logo from '../../assets/BackgroundCeu.png';
 import { useNavigation } from '@react-navigation/native';
+import { obterTodosProfessores } from '../../services/actions';
 
 export default function TelaInicial() {
   const navigation: any = useNavigation();
+  const [professores, setProfessores] = useState([]);
+
+
+  const fetchProfessores = async () => {
+    try {
+      const professoresObtidos = await obterTodosProfessores();
+      console.log(professoresObtidos)
+      setProfessores(professoresObtidos);
+    } catch (error) {
+      console.error("Erro ao obter professores:", error);
+    }
+  };
+  
 
   const handleButtonPress = (menuOption: string) => {
-    navigation.navigate('TelaInicialJogo');
+    // Adicione aqui a lógica para cada botão
+    if(menuOption === "Teste"){
+    navigation.navigate("TelaInicialJogo"); // "TelaInicial" é o nome da rota, não o componente
+    fetchProfessores()
+    console.log(`Botão ${menuOption} pressionado`);      
+    }if(menuOption === "Turmas"){
+      navigation.navigate("Turmas"); // "TelaInicial" é o nome da rota, não o componente
+      console.log(`Botão ${menuOption} pressionado`);
+    }if(menuOption === "Configurações"){
+      navigation.navigate("UpdateLoginScreen"); // "TelaInicial" é o nome da rota, não o componente
+      console.log(`Botão ${menuOption} pressionado`);
+    }        
   };
 
   return (
@@ -39,11 +64,11 @@ export default function TelaInicial() {
         >
           <Text style={styles.buttonText}>Adicionar nova matéria</Text>
         </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => handleButtonPress('Relatórios')}
-        >
+        <TouchableOpacity style={styles.button} onPress={() => handleButtonPress('Configurações')}>
           <Text style={styles.buttonText}>Configurações</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={() => handleButtonPress('Teste')}>
+          <Text style={styles.buttonText}>Teste</Text>
         </TouchableOpacity>
         <StatusBar style="auto" />
       </View>
