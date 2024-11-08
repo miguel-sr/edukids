@@ -1,0 +1,154 @@
+import { StatusBar } from 'expo-status-bar';
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, ImageBackground, TouchableOpacity, TextInput } from 'react-native';
+import logo from '../../assets/BackgroundCeu.png';
+import { useNavigation } from '@react-navigation/native';
+
+export default function App() {
+  const navigation: any = useNavigation();
+  const [inputText, setInputText] = useState('');
+  const [buttons, setButtons] = useState([
+    { label: '1º ANO - A' },
+    { label: '1º ANO - B' },
+    { label: '3º ANO - C' },
+    { label: '2º ANO - D' },
+  ]);
+
+  const handleButtonPress = (menuOption: string) => {
+    // Adicione aqui a lógica para cada botão
+    navigation.navigate("Alunos"); // "TelaInicial" é o nome da rota, não o componente
+    console.log(`Botão ${menuOption} pressionado`);
+  };
+
+  const handleAddButton = () => {
+    if (inputText.trim() !== '') {
+      setButtons([...buttons, { label: inputText }]);
+      setInputText(''); // Limpa o campo de input após adicionar
+    }
+  };
+
+  const handleRemoveButton = (index: number) => {
+    const updatedButtons = buttons.filter((_, i) => i !== index);
+    setButtons(updatedButtons);
+  };
+
+  return (
+    <ImageBackground style={styles.backgroundImage}>
+      <View style={styles.container}>
+        <Text style={styles.title}>Escolha sua turma!</Text>
+        
+        {buttons.map((button, index) => (
+          <View key={index} style={styles.buttonContainer}>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => handleButtonPress(button.label)}
+            >
+              <Text style={styles.buttonText}>{button.label}</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.removeButton}
+              onPress={() => handleRemoveButton(index)}
+            >
+              <Text style={styles.removeButtonText}>X</Text>
+            </TouchableOpacity>
+          </View>
+        ))}
+
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={styles.input}
+            placeholder="Nova turma"
+            value={inputText}
+            onChangeText={setInputText}
+          />
+          <TouchableOpacity style={styles.addButton} onPress={handleAddButton}>
+            <Text style={styles.addButtonText}>+</Text>
+          </TouchableOpacity>
+        </View>
+
+        <StatusBar style="auto" />
+      </View>
+    </ImageBackground>
+  );
+}
+
+const styles = StyleSheet.create({
+  backgroundImage: {
+    backgroundColor:"#ACDDF1",
+    flex: 1,
+    width: '100%',
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  container: {
+    width: '80%',
+    padding: 20,
+    backgroundColor: 'rgba(255, 255, 255, 0.8)',
+    borderRadius: 10,
+    alignItems: 'center',
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 30,
+    textAlign: 'center',
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: '100%',
+    marginBottom: 10,
+  },
+  button: {
+    flex: 1,
+    backgroundColor: '#007BFF',
+    borderRadius: 5,
+    paddingVertical: 15,
+    marginRight: 10,
+    alignItems: 'center',
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  removeButton: {
+    backgroundColor: '#ACDDF1',
+    borderRadius: 50,
+    padding: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  removeButtonText: {
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  inputContainer: {
+    flexDirection: 'row',
+    marginTop: 20,
+    alignItems: 'center',
+  },
+  input: {
+    flex: 1,
+    height: 40,
+    borderColor: '#007BFF',
+    borderWidth: 1,
+    borderRadius: 5,
+    paddingHorizontal: 10,
+    marginRight: 10,
+  },
+  addButton: {
+    backgroundColor: '#007BFF',
+    borderRadius: 5,
+    padding: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  addButtonText: {
+    color: '#fff',
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+});

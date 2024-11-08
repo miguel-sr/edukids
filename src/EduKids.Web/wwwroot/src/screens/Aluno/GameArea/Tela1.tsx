@@ -1,6 +1,5 @@
 import React, { useRef } from 'react';
 import { View, Image, StyleSheet, Text, ImageBackground, TouchableOpacity, Animated } from 'react-native';
-import Tts from 'react-native-tts'; 
 import girl from '../../../assets/assetsJogo/menina.png';
 import coin from '../../../assets/assetsJogo/moeda.png';
 import tower from '../../../assets/assetsJogo/torre.png';
@@ -9,13 +8,10 @@ import flower from '../../../assets/assetsJogo/flor.png';
 import ground from '../../../assets/assetsJogo/chao.png';
 import lawn from '../../../assets/assetsJogo/gramado.png';
 import { useNavigation } from '@react-navigation/native';
-import * as Speech from 'expo-speech';
-import Icon from 'react-native-vector-icons/FontAwesome';
-
 
 export default function GameScreen() {
   const navigation:any = useNavigation();
-  const girlPosition = useRef(new Animated.Value(0)).current;
+  const girlPosition = useRef(new Animated.Value(0)).current; 
 
   const handleLogin = () => {
     Animated.timing(girlPosition, {
@@ -24,23 +20,9 @@ export default function GameScreen() {
       useNativeDriver: true,
     }).start(() => {
       navigation.navigate('Tela2');
+
     });
   };
-
-
-  const handleSpeak = () => {
-    const text = 'Era uma vez uma menina que precisava comprar maçãs para seu pai...';
-  
-    const options = {
-      voice: 'com.apple.ttsbundle.Samantha-compact', 
-      rate: 0.9, 
-      pitch: 1.2, 
-    };
-  
-    Speech.speak(text, options);
-  };
-  
-  
 
   return (
     <TouchableOpacity style={styles.container} onPress={handleLogin} activeOpacity={1}>
@@ -51,10 +33,7 @@ export default function GameScreen() {
 
           <Image source={tower} style={styles.tower} />
 
-          <TouchableOpacity style={styles.container}   activeOpacity={1}>
-          <Image source={lawn} style={styles.lawn}
-          />
-          </TouchableOpacity>
+          <Image source={lawn} style={styles.lawn} />
 
           <Image source={flower} style={styles.flower} />
 
@@ -66,27 +45,24 @@ export default function GameScreen() {
             style={[styles.girl, { transform: [{ translateX: girlPosition }] }]} 
           />
 
-          <TouchableOpacity style={styles.dialogueBox} onPress={handleSpeak}>
+          <View style={styles.dialogueBox}>
             <Text style={styles.dialogueText}>
               Era uma vez uma menina que precisava comprar maçãs para seu pai...
             </Text>
-          </TouchableOpacity>
+          </View>
         </View>
 
         <ImageBackground source={ground} style={styles.ground} />
         <ImageBackground source={ground} style={styles.ground2} />
       </View>
-      <Icon name="chevron-right" size={50} color="blue" />
-
     </TouchableOpacity>
-    
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#d3edea',
+    backgroundColor: '#d3edea', 
   },
   background: {
     flex: 1,

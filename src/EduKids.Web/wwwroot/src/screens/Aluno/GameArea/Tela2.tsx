@@ -1,6 +1,7 @@
-import React from 'react';
-import { View, Image, StyleSheet, Text, ImageBackground } from 'react-native';
+import React, { useRef } from 'react';
+import { View, Image, StyleSheet, Text, ImageBackground, TouchableOpacity, Animated } from 'react-native';
 import girl from '../../../assets/assetsJogo/menina.png';
+import pai from '../../../assets/assetsJogo/pai.png';
 import coin from '../../../assets/assetsJogo/moeda.png';
 import tower from '../../../assets/assetsJogo/torre.png';
 import cloud from '../../../assets/assetsJogo/nuvem.png';
@@ -8,53 +9,71 @@ import flower from '../../../assets/assetsJogo/flor.png';
 import ground from '../../../assets/assetsJogo/chao.png';
 import box from '../../../assets/assetsJogo/caixaDeTexto.png';
 import lawn from '../../../assets/assetsJogo/gramado.png';
+import { useNavigation } from '@react-navigation/native';
 
 
 
-export default function GameScreen() {
-    return (
+export default function Tela2() {
+  const navigation:any = useNavigation();
+  const coinAnimation = useRef(new Animated.Value(1)).current;
+
+  const handleLogin = () => {
+    Animated.timing(coinAnimation, {
+      toValue: 0, 
+      duration: 1000, 
+      useNativeDriver: true, 
+    }).start(() => {
+      navigation.navigate("Tela3"); 
+    });
+  };
+
+  const coinStyle = {
+    transform: [
+      {
+        translateX: coinAnimation.interpolate({
+          inputRange: [0, 1],
+          outputRange: [0, -50], 
+        }),
+      },
+    ],
+  };
+
+  return (
+    <TouchableOpacity style={styles.container} onPress={handleLogin} activeOpacity={1}>
       <View style={styles.container}>
-        {/* Fundo do céu */}
         <View style={styles.background}>
-          {/* Nuvens */}
           <Image source={cloud} style={[styles.cloud, { top: 20, left: 10 }]} />
           <Image source={cloud} style={[styles.cloud2, { top: 50, right: 10 }]} />
-  
-          {/* Torre */}
+
           <Image source={tower} style={styles.tower} />
-  
-          {/* Gramado */}
+
           <Image source={lawn} style={styles.lawn} />
-  
-          {/* Flor */}
+
           <Image source={flower} style={styles.flower} />
-  
-          {/* Moedas */}
-          <Image source={coin} style={[styles.coin, { top: 150, left: 200 }]} />
-          <Image source={coin} style={[styles.coin, { top: 150, left: 260 }]} />
-  
-          {/* Menina */}
+
+          <Animated.Image source={coin} style={[styles.coin, coinStyle, { top: 50, left: 100 }]} />
+
           <Image source={girl} style={styles.girl} />
-  
-          {/* Caixa de diálogo */}
+
+          <Image source={pai} style={styles.pai} />
+
           <View style={styles.dialogueBox}>
             <Text style={styles.dialogueText}>
-              Era uma vez uma menina que precisava comprar maçãs para seu pai...
+              Vá até o mercado e me traga o máximo que puder com 5 moedas...
             </Text>
           </View>
         </View>
-  
-        {/* Chão como elemento */}
+
         <ImageBackground source={ground} style={styles.ground} />
         <ImageBackground source={ground} style={styles.ground2} />
       </View>
-    );
-  }
-  
+    </TouchableOpacity>
+  );
+}
   const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: '#d3edea', // Cor de fundo solicitada
+      backgroundColor: '#d3edea', 
     },
     background: {
       flex: 1,
@@ -106,11 +125,19 @@ export default function GameScreen() {
       height: '100%',
       resizeMode: 'contain',
     },
+    pai: {
+        position: 'absolute',
+        top: 56,
+        right: -10,
+        width: '100%',
+        height: '100%',
+        resizeMode: 'contain',
+      },
     dialogueBox: {
       position: 'absolute',
-      bottom: 200, // Ajustado para ficar mais próximo do personagem
-      left: '10%', // Alinhado mais centralizado
-      width: '80%', // Define a largura da caixa de texto
+      bottom: 200, 
+      left: '10%', 
+      width: '80%', 
       backgroundColor: '#fff',
       borderRadius: 10,
       padding: 15,
@@ -120,7 +147,7 @@ export default function GameScreen() {
       shadowOffset: { width: 0, height: 2 },
       shadowOpacity: 0.3,
       shadowRadius: 2,
-      elevation: 5, // Para Android
+      elevation: 5, 
     },
     dialogueText: {
       fontSize: 16,
