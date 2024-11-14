@@ -1,7 +1,7 @@
 ﻿using EduKids.Dominio.IRepositorios;
 using EduKids.Dominio.Modelos;
 using EduKids.Infra.Repositorios;
-using EduKids.Servico.Autenticacao;
+using EduKids.Servico.Usuarios;
 
 namespace EduKids.Web
 {
@@ -24,6 +24,9 @@ namespace EduKids.Web
             services.AddScoped<IEscolaRepositorio, EscolaRepositorio>();
             services.AddScoped<ITurmaRepositorio, TurmaRepositorio>();
             services.AddScoped<IDisciplinaRepositorio, DisciplinaRepositorio>();
+            services.AddScoped<INotaRepositorio, NotaRepositorio>();
+            services.AddScoped<IPerguntaRepositorio, PerguntaRepositorio>();
+            services.AddScoped<IRespostaRepositorio, RespostaRepositorio>();
         }
     }
 }

@@ -4,16 +4,17 @@ using System.Text.Json.Serialization;
 
 namespace EduKids.Dominio.Modelos
 {
-    public class Turma
+    public class Resposta
     {
         [Key]
         public int Id { get; set; }
-        public required string Descricao { get; set; }
-
-        [ForeignKey(nameof(Modelos.Escola))]
-        public int IdEscola { get; set; }
         
+        public string Descricao { get; set; }
+
+        [ForeignKey(nameof(Modelos.Pergunta))]
+        public int IdPergunta { get; set; }
+
         [JsonIgnore]
-        public Escola? Escola { get; set; }
+        public Pergunta? Pergunta { get; set; }
     }
 }

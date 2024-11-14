@@ -1,7 +1,6 @@
 ﻿using EduKids.Dominio.IRepositorios;
 using EduKids.Dominio.Modelos;
-using EduKids.Servico.Autenticacao;
-using EduKids.Servico.Coordenadores;
+using EduKids.Servico.Usuarios;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;

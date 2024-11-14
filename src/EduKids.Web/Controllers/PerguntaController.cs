@@ -1,6 +1,6 @@
 ﻿using EduKids.Dominio.IRepositorios;
 using EduKids.Dominio.Modelos;
-using EduKids.Servico.Usuarios;
+using EduKids.Servico.Perguntas;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
@@ -9,9 +9,9 @@ namespace EduKids.Web.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]
-    public class CoordenadorController(ICoordenadorRepositorio repositorio, ServicoDeAutenticacao<Coordenador> servicoDeAutenticacao) : ControllerBase
+    public class PerguntaController(IPerguntaRepositorio repositorio) : ControllerBase
     {
-        private readonly ServicoDeCoordenadores _servicoDeCoordenadores = new(repositorio);
+        private readonly ServicoDePerguntas _servicoDePerguntas = new(repositorio);
 
         [HttpGet]
         [AllowAnonymous]
@@ -19,9 +19,9 @@ namespace EduKids.Web.Controllers
         {
             try
             {
-                var coordenadores = await _servicoDeCoordenadores.ObterTodos();
+                var notas = await _servicoDePerguntas.ObterTodos();
 
-                return Ok(coordenadores);
+                return Ok(notas);
             }
             catch (HttpRequestException ex)
             {
@@ -41,9 +41,9 @@ namespace EduKids.Web.Controllers
         {
             try
             {
-                var aluno = await _servicoDeCoordenadores.ObterPorId(id);
+                var nota = await _servicoDePerguntas.ObterPorId(id);
 
-                return Ok(aluno);
+                return Ok(nota);
             }
             catch (HttpRequestException erro)
             {
@@ -59,18 +59,13 @@ namespace EduKids.Web.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> Criar([FromBody] Coordenador entidade)
+        public async Task<IActionResult> Criar([FromBody] Pergunta pergunta)
         {
             try
             {
-                var coordenador = await _servicoDeCoordenadores.Adicionar(entidade);
+                var notaDoBanco = await _servicoDePerguntas.Adicionar(pergunta);
 
-                return Created($"coordenador/{coordenador.Id}", new
-                {
-                    id = coordenador.Id,
-                    nome = coordenador.Nome,
-                    cpf = coordenador.Cpf,
-                });
+                return Created($"aluno/{notaDoBanco.Id}", notaDoBanco);
             }
             catch (HttpRequestException erro)
             {
@@ -86,11 +81,11 @@ namespace EduKids.Web.Controllers
 
         [HttpPut]
         [AllowAnonymous]
-        public async Task<IActionResult> Atualizar([FromBody] Coordenador aluno)
+        public async Task<IActionResult> Atualizar([FromBody] Pergunta pergunta)
         {
             try
             {
-                await _servicoDeCoordenadores.Atualizar(aluno);
+                await _servicoDePerguntas.Atualizar(pergunta);
 
                 return NoContent();
             }
@@ -112,7 +107,7 @@ namespace EduKids.Web.Controllers
         {
             try
             {
-                await _servicoDeCoordenadores.Remover(id);
+                await _servicoDePerguntas.Remover(id);
 
                 return NoContent();
             }
@@ -125,28 +120,6 @@ namespace EduKids.Web.Controllers
             catch (Exception erro)
             {
                 return StatusCode((int)HttpStatusCode.InternalServerError, erro.Message);
-            }
-        }
-
-        [HttpPost("login")]
-        [AllowAnonymous]
-        public async Task<IActionResult> Login([FromBody] DadosDeAutenticacao dados)
-        {
-            try
-            {
-                var token = await servicoDeAutenticacao.Autenticar(dados);
-
-                return Ok(token);
-            }
-            catch (HttpRequestException ex)
-            {
-                var status = (int)(ex.StatusCode ?? HttpStatusCode.InternalServerError);
-
-                return StatusCode(status, ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
             }
         }
     }
