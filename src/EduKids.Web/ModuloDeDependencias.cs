@@ -24,6 +24,9 @@ namespace EduKids.Web
             services.AddScoped<IEscolaRepositorio, EscolaRepositorio>();
             services.AddScoped<ITurmaRepositorio, TurmaRepositorio>();
             services.AddScoped<IDisciplinaRepositorio, DisciplinaRepositorio>();
+            services.AddScoped<INotaRepositorio, NotaRepositorio>();
+            services.AddScoped<IPerguntaRepositorio, PerguntaRepositorio>();
+            services.AddScoped<IRespostaRepositorio, RespostaRepositorio>();
         }
     }
 }
