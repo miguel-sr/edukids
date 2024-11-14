@@ -1,7 +1,7 @@
 ﻿using EduKids.Dominio.IRepositorios;
 using EduKids.Dominio.Modelos;
 using EduKids.Infra.Repositorios;
-using EduKids.Servico.Autenticacao;
+using EduKids.Servico.Usuarios;
 
 namespace EduKids.Web
 {

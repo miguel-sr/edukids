@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace EduKids.Dominio.Modelos
 {
@@ -8,10 +9,14 @@ namespace EduKids.Dominio.Modelos
 
         [ForeignKey(nameof(Modelos.Escola))]
         public int IdEscola { get; set; }
-        public Escola Escola { get; set; }
+
+        [JsonIgnore]
+        public Escola? Escola { get; set; }
 
         [ForeignKey(nameof(Modelos.Turma))]
         public int IdTurma { get; set; }
-        public Turma Turma { get; set; }
+
+        [JsonIgnore]
+        public Turma? Turma { get; set; }
     }
 }

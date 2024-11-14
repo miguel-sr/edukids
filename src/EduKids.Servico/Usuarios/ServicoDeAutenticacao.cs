@@ -7,7 +7,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace EduKids.Servico.Autenticacao
+namespace EduKids.Servico.Usuarios
 {
     public class ServicoDeAutenticacao<T>(IUsuarioRepositorio<T> repositorio) where T : Usuario
     {
