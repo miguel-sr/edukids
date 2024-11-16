@@ -15,31 +15,34 @@ export default function TelaInicial() {
   const navigation: any = useNavigation();
   const [professores, setProfessores] = useState([]);
 
-
   const fetchProfessores = async () => {
     try {
       const professoresObtidos = await obterTodosProfessores();
-      console.log(professoresObtidos)
+      console.log(professoresObtidos);
       setProfessores(professoresObtidos);
     } catch (error) {
-      console.error("Erro ao obter professores:", error);
+      console.error('teste:', error);
     }
   };
-  
 
   const handleButtonPress = (menuOption: string) => {
-    // Adicione aqui a lógica para cada botão
-    if(menuOption === "Teste"){
-    navigation.navigate("TelaInicialJogo"); // "TelaInicial" é o nome da rota, não o componente
-    fetchProfessores()
-    console.log(`Botão ${menuOption} pressionado`);      
-    }if(menuOption === "Turmas"){
-      navigation.navigate("Turmas"); // "TelaInicial" é o nome da rota, não o componente
+    if (menuOption === 'Teste') {
+      navigation.navigate('TelaInicialJogo');
       console.log(`Botão ${menuOption} pressionado`);
-    }if(menuOption === "Configurações"){
-      navigation.navigate("UpdateLoginScreen"); // "TelaInicial" é o nome da rota, não o componente
+    } else if (menuOption === 'Turmas') {
+      navigation.navigate('Turmas');
       console.log(`Botão ${menuOption} pressionado`);
-    }        
+    } else if (menuOption === 'Configurações') {
+      navigation.navigate('UpdateLoginScreen');
+      console.log(`Botão ${menuOption} pressionado`);
+    }else if (menuOption === 'GameMateria') {
+      navigation.navigate('GameMateria');
+      console.log(`Botão ${menuOption} pressionado`);
+    }
+  };
+
+  const handleLogout = () => {
+    navigation.navigate('Login'); // Certifique-se de que 'Login' é o nome correto da rota de login
   };
 
   return (
@@ -54,21 +57,27 @@ export default function TelaInicial() {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => handleButtonPress('Gerar Matéria')}
+          onPress={() => handleButtonPress('GameMateria')}
         >
           <Text style={styles.buttonText}>Gamificar Matéria</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => handleButtonPress('Configurações')}
+          onPress={() => handleButtonPress('')}
         >
           <Text style={styles.buttonText}>Adicionar nova matéria</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={() => handleButtonPress('Configurações')}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => handleButtonPress('Configurações')}
+        >
           <Text style={styles.buttonText}>Configurações</Text>
         </TouchableOpacity>
         <StatusBar style="auto" />
       </View>
+      <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
+        <Text style={styles.logoutButtonText}>Sair</Text>
+      </TouchableOpacity>
     </ImageBackground>
   );
 }
@@ -103,6 +112,21 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   buttonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  logoutButton: {
+    position: 'absolute',
+    bottom: 20,
+    left: '55%',
+    transform: [{ translateX: -50 }],
+    backgroundColor: '#FF5733',
+    borderRadius: 5,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+  },
+  logoutButtonText: {
     color: '#fff',
     fontSize: 16,
     fontWeight: 'bold',

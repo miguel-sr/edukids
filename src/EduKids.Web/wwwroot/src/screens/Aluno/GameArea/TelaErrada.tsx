@@ -28,7 +28,10 @@ export default function Tela7() {
         <View style={styles.background}>
           <Image source={cloud} style={[styles.cloud, { top: 20, left: 10 }]} />
           <Image source={cloud} style={[styles.cloud2, { top: 50, right: 10 }]} />
-          <Image source={x} />
+          <View style={styles.dialogueBox}>
+            <Text style={styles.dialogueText}>Vamos tentar mais uma vez?</Text>
+          </View>
+          <Image source={x} style={styles.x}/>
  
 
         </View>
@@ -103,7 +106,7 @@ export default function Tela7() {
       },
     dialogueBox: {
       position: 'absolute',
-      bottom: 250, 
+      bottom: 300, 
       left: '10%', 
       width: '80%', 
       backgroundColor: '#fff',
@@ -204,6 +207,11 @@ export default function Tela7() {
         height: '100%',
         marginBottom: 20,
         resizeMode: 'contain',
+      },
+      x:{
+        top:10,
+        width:'100%',
+        height:'100%'
       },
   });
   

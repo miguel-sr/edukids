@@ -2,7 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, ImageBackground, TouchableOpacity, TextInput } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { LineChart } from 'react-native-chart-kit';  // Importando o gráfico
+import { LineChart } from 'react-native-chart-kit';  
 import { Dimensions } from 'react-native';
 
 export default function MateriaTela() {
@@ -18,25 +18,23 @@ export default function MateriaTela() {
   const [selectedBimestre, setSelectedBimestre] = useState<number | null>(null);
 
   const handleButtonPress = (aluno: any) => {
-    // Define o aluno selecionado para exibir suas matérias
     setSelectedAluno(aluno);
   };
 
   const handleAddButton = () => {
     if (inputText.trim() !== '') {
       setButtons([...buttons, { label: inputText, materias: [] }]);
-      setInputText(''); // Limpa o campo de input após adicionar
+      setInputText(''); 
     }
   };
 
-  // Dados fictícios para o gráfico de evolução das notas
   const notaData = {
-    labels: ['1º Bimestre', '2º Bimestre', '3º Bimestre', '4º Bimestre'],  // Bimestres
+    labels: ['1º Bimestre', '2º Bimestre', '3º Bimestre', '4º Bimestre'],  
     datasets: [
       {
-        data: [8, 6, 7, 9], // Notas do aluno nos bimestres
-        strokeWidth: 2, // Espessura da linha
-        color: (opacity = 1) => `rgba(0, 123, 255, ${opacity})`, // Cor da linha
+        data: [8, 6, 7, 9], 
+        strokeWidth: 2, 
+        color: (opacity = 1) => `rgba(0, 123, 255, ${opacity})`,
       }
     ]
   };
@@ -54,7 +52,6 @@ export default function MateriaTela() {
       <View style={styles.container}>
         <Text style={styles.title}>Aluno 1 - Matemática</Text>
 
-        {/* Se um aluno for selecionado, exibe suas matérias */}
         {selectedAluno && (
           <View style={styles.materiasContainer}>
             <Text style={styles.materiasTitle}>Matérias de {selectedAluno.label}:</Text>
@@ -68,7 +65,6 @@ export default function MateriaTela() {
           </View>
         )}
 
-        {/* Exibindo o gráfico de evolução das notas */}
         <View style={styles.chartContainer}>
           <Text style={styles.chartTitle}>Evolução das Notas</Text>
           <LineChart
@@ -99,7 +95,7 @@ export default function MateriaTela() {
 
         {/* Bimestres */}
         <View style={styles.bimestresContainer}>
-          {['1º Bimestre', '2º Bimestre', '3º Bimestre', '4º Bimestre'].map((bimestre, index) => (
+          {['1º Bi', '2º Bi', '3º Bi', '4º Bi'].map((bimestre, index) => (
             <TouchableOpacity
               key={index}
               style={[styles.bimestreButton, selectedBimestre === index + 1 && styles.selectedBimestre]}

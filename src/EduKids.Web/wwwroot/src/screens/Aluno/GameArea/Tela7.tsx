@@ -39,13 +39,11 @@ export default function Tela7() {
         {/* Botão para 4 maçãs */}
         <Pressable
           style={({ pressed }) => [
-            { backgroundColor: pressed ? '#5a0d65' : '#841584' },
-            styles.button,
-            styles.choiceButton,
+            { backgroundColor: pressed ? '#5a0d65' : '#841584', top:-180, width:200, left:'40%', height:40 , padding: 10,borderRadius: 5,},
           ]}
           onPress={() => handleOption('4')}
         >
-          <Text style={styles.buttonText}>4 maçãs</Text>
+          <Text style={[styles.buttonText, {left:60}]}>4 maçãs</Text>
         </Pressable>
 
         {/* Botão para 5 maçãs */}
@@ -130,18 +128,19 @@ const styles = StyleSheet.create({
   },
   choiceButton: {
     position: 'absolute',
-    bottom: 100, // Ajuste a posição para colocar o botão em local clicável
-    left: '25%',
-    width: '50%',
+    bottom: 100, 
+    left: '40%',
+    width: 200,
     marginBottom: 20,
   },
   ground: {
     position: 'absolute',
     bottom: 0,
-    left: 0,
+    left: 150,
     right: 0,
     height: 100,
     resizeMode: 'cover',
+    width: '100%',
   },
   ground2: {
     position: 'absolute',
@@ -150,6 +149,7 @@ const styles = StyleSheet.create({
     right: 0,
     height: 100,
     resizeMode: 'cover',
+    width: '100%',
   },
   button: {
     padding: 10,

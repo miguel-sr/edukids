@@ -10,32 +10,44 @@ import {
 } from 'react-native';
 import logo from '../../assets/Login.png';
 import { useNavigation } from '@react-navigation/native';
-import { Picker } from '@react-native-picker/picker'; // Adicionando o Picker
+import { Picker } from '@react-native-picker/picker';
+import { Login } from '../../services/actions';
 
 export default function App() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-
-  const [userRole, setUserRole] = useState('Aluno'); // Estado para armazenar a seleção de usuário
+  const [userRole, setUserRole] = useState('Aluno');
+  const [backendMessage, setBackendMessage] = useState(''); // Estado para a mensagem do backend
   const navigation: any = useNavigation();
 
-  const handleLogin = () => {
-    navigation.navigate('TelaInicial'); // "TelaInicial" é o nome da rota, não o componente
+  const fetchLogin = async () => {
+    try {
+      const response = await Login( username, password );
+      if (response) {
+        setBackendMessage(response.message || 'Login bem-sucedido!');
+        if (userRole === 'Aluno') {
+          navigation.navigate('TelaInicialAluno');
+        } else {
+          navigation.navigate('TelaInicial');
+        }
+      } else {
+        setBackendMessage('Erro ao fazer login. Verifique as credenciais.');
+      }
+    } catch (error) {
+      console.error('Erro no login:', error);
+      setBackendMessage('Erro no servidor. Tente novamente mais tarde.');
+    }
   };
-
-  const validaUsuario = (e:any) => {
-    console.log(e)
-    if(e === "Aluno"){
-      navigation.navigate('TelaInicialAluno')
-    }else{
-      navigation.navigate('TelaInicial')
-    } 
-  }
 
   return (
     <ImageBackground source={logo} style={styles.backgroundImage}>
       <View style={styles.container}>
         <Text style={styles.title}>Seja bem vindo(a)!</Text>
+
+        {/* Mensagem do backend */}
+        {backendMessage ? (
+          <Text style={styles.backendMessage}>{backendMessage}</Text>
+        ) : null}
 
         {/* Input para nome de usuário */}
         <TextInput
@@ -58,10 +70,7 @@ export default function App() {
         <Picker
           selectedValue={userRole}
           style={styles.picker}
-          onValueChange={(itemValue) => {
-            setUserRole(itemValue);
-            validaUsuario(itemValue); 
-          }}
+          onValueChange={(itemValue) => setUserRole(itemValue)}
         >
           <Picker.Item label="Aluno" value="Aluno" />
           <Picker.Item label="Professor" value="Professor" />
@@ -69,10 +78,9 @@ export default function App() {
         </Picker>
 
         {/* Botão de login */}
-        <TouchableOpacity style={styles.button} onPress={handleLogin}>
+        <TouchableOpacity style={styles.button} onPress={fetchLogin}>
           <Text style={styles.buttonText}>Login</Text>
         </TouchableOpacity>
-
 
         <StatusBar style="auto" />
       </View>
@@ -101,6 +109,12 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 20,
   },
+  backendMessage: {
+    color: 'red',
+    fontSize: 14,
+    marginBottom: 10,
+    textAlign: 'center',
+  },
   input: {
     width: '100%',
     height: 40,
@@ -113,8 +127,6 @@ const styles = StyleSheet.create({
   },
   picker: {
     width: '100%',
-    height: 40,
-    borderColor: '#ddd',
     borderWidth: 1,
     borderRadius: 5,
     marginBottom: 20,

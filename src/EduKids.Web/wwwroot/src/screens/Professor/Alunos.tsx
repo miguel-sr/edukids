@@ -2,6 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, ImageBackground, TouchableOpacity, TextInput } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { Alunos } from '../../services/actions';
 
 export default function App() {
   const navigation: any = useNavigation();
@@ -13,14 +14,22 @@ export default function App() {
   ]);
   const [selectedAluno, setSelectedAluno] = useState<any>(null);
 
+  const fetchAlunos = async () => {
+    try {
+      const professoresObtidos = await Alunos();
+      console.log(professoresObtidos);
+      setButtons(professoresObtidos);
+    } catch (error) {
+      console.error('teste:', error);
+    }
+  };
+
   const handleButtonPress = (aluno: any) => {
-    // Define o aluno selecionado para exibir suas matérias
     setSelectedAluno(aluno);
   };
 
   const handleMateriaPress = (materia: string) => {
-    // Navegar para outra tela ao clicar na matéria
-    navigation.navigate("MateriaTela", { materia }); // "MateriaTela" é o nome da rota da tela de matérias
+    navigation.navigate("MateriaTela", { materia });
     console.log(`Matéria ${materia} selecionada`);
   };
 
@@ -31,11 +40,15 @@ export default function App() {
     }
   };
 
+  const handleLogout = () => {
+    navigation.navigate('Login'); // Redireciona para a tela de login
+  };
+
   return (
     <ImageBackground style={styles.backgroundImage}>
       <View style={styles.container}>
         <Text style={styles.title}>Escolha um aluno!</Text>
-        
+
         {/* Renderizando os botões de alunos */}
         {buttons.map((button, index) => (
           <TouchableOpacity
@@ -69,13 +82,18 @@ export default function App() {
 
         <StatusBar style="auto" />
       </View>
+
+      {/* Botão de Sair */}
+      <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
+        <Text style={styles.logoutButtonText}>Sair</Text>
+      </TouchableOpacity>
     </ImageBackground>
   );
 }
 
 const styles = StyleSheet.create({
   backgroundImage: {
-    backgroundColor:"#ACDDF1",
+    backgroundColor: "#ACDDF1",
     flex: 1,
     width: '100%',
     height: '100%',
@@ -161,6 +179,21 @@ const styles = StyleSheet.create({
   addButtonText: {
     color: '#fff',
     fontSize: 20,
+    fontWeight: 'bold',
+  },
+  logoutButton: {
+    position: 'absolute',
+    bottom: 20,
+    left: '55%',
+    transform: [{ translateX: -50 }],
+    backgroundColor: '#FF5733',
+    borderRadius: 5,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+  },
+  logoutButtonText: {
+    color: '#fff',
+    fontSize: 16,
     fontWeight: 'bold',
   },
 });

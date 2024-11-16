@@ -1,6 +1,8 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { View, Image, StyleSheet, Text, ImageBackground, TouchableOpacity, Animated } from 'react-native';
-import Tts from 'react-native-tts'; 
+import { useNavigation } from '@react-navigation/native';
+import * as ScreenOrientation from 'expo-screen-orientation';
+
 import girl from '../../../assets/assetsJogo/menina.png';
 import coin from '../../../assets/assetsJogo/moeda.png';
 import tower from '../../../assets/assetsJogo/torre.png';
@@ -8,39 +10,30 @@ import cloud from '../../../assets/assetsJogo/nuvem.png';
 import flower from '../../../assets/assetsJogo/flor.png';
 import ground from '../../../assets/assetsJogo/chao.png';
 import lawn from '../../../assets/assetsJogo/gramado.png';
-import { useNavigation } from '@react-navigation/native';
-import * as Speech from 'expo-speech';
-import Icon from 'react-native-vector-icons/FontAwesome';
-
 
 export default function GameScreen() {
-  const navigation:any = useNavigation();
+  const navigation: any = useNavigation();
   const girlPosition = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    // Bloqueia a orientação da tela para landscape ao montar o componente
+    ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE);
+
+    // Limpa a configuração ao desmontar o componente
+    return () => {
+      ScreenOrientation.unlockAsync(); // Restaura a orientação normal ao sair da tela
+    };
+  }, []);
 
   const handleLogin = () => {
     Animated.timing(girlPosition, {
-      toValue: 100, 
-      duration: 1000, 
+      toValue: 100,
+      duration: 1000,
       useNativeDriver: true,
     }).start(() => {
       navigation.navigate('Tela2');
     });
   };
-
-
-  const handleSpeak = () => {
-    const text = 'Era uma vez uma menina que precisava comprar maçãs para seu pai...';
-  
-    const options = {
-      voice: 'com.apple.ttsbundle.Samantha-compact', 
-      rate: 0.9, 
-      pitch: 1.2, 
-    };
-  
-    Speech.speak(text, options);
-  };
-  
-  
 
   return (
     <TouchableOpacity style={styles.container} onPress={handleLogin} activeOpacity={1}>
@@ -48,38 +41,28 @@ export default function GameScreen() {
         <View style={styles.background}>
           <Image source={cloud} style={[styles.cloud, { top: 20, left: 10 }]} />
           <Image source={cloud} style={[styles.cloud2, { top: 50, right: 10 }]} />
-
           <Image source={tower} style={styles.tower} />
-
-          <TouchableOpacity style={styles.container}   activeOpacity={1}>
-          <Image source={lawn} style={styles.lawn}
-          />
-          </TouchableOpacity>
-
+          <Image source={lawn} style={styles.lawn} />
           <Image source={flower} style={styles.flower} />
-
           <Image source={coin} style={[styles.coin, { top: 150, left: 200 }]} />
           <Image source={coin} style={[styles.coin, { top: 150, left: 260 }]} />
 
-          <Animated.Image 
-            source={girl} 
-            style={[styles.girl, { transform: [{ translateX: girlPosition }] }]} 
+          <Animated.Image
+            source={girl}
+            style={[styles.girl, { transform: [{ translateX: girlPosition }] }]}
           />
 
-          <TouchableOpacity style={styles.dialogueBox} onPress={handleSpeak}>
+          <View style={styles.dialogueBox}>
             <Text style={styles.dialogueText}>
               Era uma vez uma menina que precisava comprar maçãs para seu pai...
             </Text>
-          </TouchableOpacity>
+          </View>
         </View>
 
         <ImageBackground source={ground} style={styles.ground} />
         <ImageBackground source={ground} style={styles.ground2} />
       </View>
-      <Icon name="chevron-right" size={50} color="blue" />
-
     </TouchableOpacity>
-    
   );
 }
 
@@ -140,9 +123,9 @@ const styles = StyleSheet.create({
   },
   dialogueBox: {
     position: 'absolute',
-    bottom: 220, 
-    left: '10%', 
-    width: '70%', 
+    bottom: 220,
+    left: '10%',
+    width: '70%',
     backgroundColor: '#fff',
     borderRadius: 10,
     padding: 15,
@@ -152,7 +135,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.3,
     shadowRadius: 2,
-    elevation: 5, 
+    elevation: 5,
   },
   dialogueText: {
     fontSize: 16,
