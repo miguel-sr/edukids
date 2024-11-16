@@ -38,6 +38,8 @@ namespace EduKids.Web
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+
+            app.UseCors(options => options.SetIsOriginAllowed(x => _ = true).AllowAnyMethod().AllowAnyHeader().AllowCredentials());
         }
 
         private void CarregarVariaveisDeAmbiente()
