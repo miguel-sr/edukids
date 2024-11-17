@@ -20,6 +20,7 @@ import Alunos from '../screens/Professor/Alunos';
 import MateriaTela from '../screens/Professor/Materias';
 import UpdateLoginScreen from '../screens/Configuracoes/Configuracoes';
 import GameMateria from '../screens/Professor/GamificarMateria'
+import Resumo from '../screens/Aluno/GameArea/TelaDesempenho'
 
 export type RootStackParamList = {
   Login: undefined;
@@ -42,6 +43,7 @@ export type RootStackParamList = {
   MateriaTela:undefined;
   UpdateLoginScreen:undefined;
   GameMateria:undefined;
+  Resumo: { correctAnswers: number | undefined; wrongAnswers: number | undefined };
 };
 
 const Stack = createStackNavigator<RootStackParamList>()
@@ -81,6 +83,7 @@ export default function AppNavigator() {
         <Stack.Screen name="MateriaTela" component={MateriaTela} options={{ title: 'MateriaTela', headerShown: false }} />
         <Stack.Screen name="UpdateLoginScreen" component={UpdateLoginScreen} options={{ title: 'UpdateLoginScreen', headerShown: false }} />
         <Stack.Screen name="GameMateria" component={GameMateria} options={{ title: 'GameMateria', headerShown: false }} />
+        <Stack.Screen name="Resumo" component={Resumo} options={{ title: 'Resumo', headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>
   )
