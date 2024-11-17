@@ -1,24 +1,38 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useState } from 'react';
-import { StyleSheet, Text, View, ImageBackground, TouchableOpacity, TextInput } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  ImageBackground,
+  TouchableOpacity,
+  TextInput,
+} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { Alunos } from '../../services/actions';
+import { AlunosComMateria } from '../../services/actions';
 
 export default function App() {
   const navigation: any = useNavigation();
   const [inputText, setInputText] = useState('');
-  const [buttons, setButtons] = useState([
-    { label: 'Aluno 1', materias: ['Matemática', 'Português', 'História'] },
-    { label: 'Aluno 2', materias: ['Biologia', 'Física', 'Química'] },
-    { label: 'Aluno 3', materias: ['Geografia', 'Arte', 'Educação Física'] },
-  ]);
+  const [buttons, setButtons] = useState<any[]>([]);
+
   const [selectedAluno, setSelectedAluno] = useState<any>(null);
+
+  useEffect(() => {
+    fetchAlunos();
+  }, []);
 
   const fetchAlunos = async () => {
     try {
-      const professoresObtidos = await Alunos();
-      console.log(professoresObtidos);
-      setButtons(professoresObtidos);
+      const alunos = await AlunosComMateria();
+
+      console.log(alunos);
+      alunos.forEach((alunos: any) => {
+        setButtons((prevButtons) => [
+          ...prevButtons,
+          { label: alunos.nome, materias: [alunos.materia] },
+        ]);
+      });
     } catch (error) {
       console.error('teste:', error);
     }
@@ -29,7 +43,7 @@ export default function App() {
   };
 
   const handleMateriaPress = (materia: string) => {
-    navigation.navigate("MateriaTela", { materia });
+    navigation.navigate('MateriaTela', { materia });
     console.log(`Matéria ${materia} selecionada`);
   };
 
@@ -63,19 +77,25 @@ export default function App() {
         {/* Se um aluno for selecionado, exibe suas matérias como botões */}
         {selectedAluno && (
           <View style={styles.materiasContainer}>
-            <Text style={styles.materiasTitle}>Matérias de {selectedAluno.label}:</Text>
+            <Text style={styles.materiasTitle}>
+              Matérias de {selectedAluno.label}:
+            </Text>
             {selectedAluno.materias.length > 0 ? (
-              selectedAluno.materias.map((materia: string, index: React.Key | null | undefined) => (
-                <TouchableOpacity
-                  key={index}
-                  style={styles.materiaButton}
-                  onPress={() => handleMateriaPress(materia)}
-                >
-                  <Text style={styles.materiaButtonText}>{materia}</Text>
-                </TouchableOpacity>
-              ))
+              selectedAluno.materias.map(
+                (materia: string, index: React.Key | null | undefined) => (
+                  <TouchableOpacity
+                    key={index}
+                    style={styles.materiaButton}
+                    onPress={() => handleMateriaPress(materia)}
+                  >
+                    <Text style={styles.materiaButtonText}>{materia}</Text>
+                  </TouchableOpacity>
+                )
+              )
             ) : (
-              <Text style={styles.materiaText}>Nenhuma matéria cadastrada.</Text>
+              <Text style={styles.materiaText}>
+                Nenhuma matéria cadastrada.
+              </Text>
             )}
           </View>
         )}
@@ -93,7 +113,7 @@ export default function App() {
 
 const styles = StyleSheet.create({
   backgroundImage: {
-    backgroundColor: "#ACDDF1",
+    backgroundColor: '#ACDDF1',
     flex: 1,
     width: '100%',
     height: '100%',

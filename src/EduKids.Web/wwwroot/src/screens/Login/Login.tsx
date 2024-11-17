@@ -22,20 +22,24 @@ export default function App() {
 
   const fetchLogin = async () => {
     try {
-      const response = await Login( username, password );
-      if (response) {
-        setBackendMessage(response.message || 'Login bem-sucedido!');
-        if (userRole === 'Aluno') {
-          navigation.navigate('TelaInicialAluno');
-        } else {
-          navigation.navigate('TelaInicial');
-        }
-      } else {
-        setBackendMessage('Erro ao fazer login. Verifique as credenciais.');
-      }
-    } catch (error) {
-      console.error('Erro no login:', error);
-      setBackendMessage('Erro no servidor. Tente novamente mais tarde.');
+      // REMOVER
+      navigation.navigate('TelaInicial');
+      // const response = await Login(username, password);
+
+      // if (response) {
+      //   setBackendMessage(response.message || 'Login bem-sucedido!');
+
+      //   if (userRole === 'Aluno') {
+      //     navigation.navigate('TelaInicialAluno');
+      //   } else {
+      //     navigation.navigate('TelaInicial');
+      //   }
+      // } else {
+      //   setBackendMessage('Erro ao fazer login. Verifique as credenciais.');
+      // }
+    } catch (error: any) {
+      console.error('Erro no login:', error.response.data);
+      setBackendMessage(error.response.data);
     }
   };
 

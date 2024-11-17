@@ -39,6 +39,11 @@ namespace EduKids.Infra.Repositorios
             return await contexto.Alunos.ToListAsync();
         }
 
+        public async Task<IEnumerable<AlunoComMateria>> ObterTodosComMateria()
+        {
+            return await contexto.AlunosComMaterias.ToListAsync();
+        }
+
         public async Task Remover(int id)
         {
             var aluno = await ObterPorId(id);
