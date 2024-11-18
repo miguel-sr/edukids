@@ -1,9 +1,9 @@
 import axios from 'axios';
 import { ENDPOINTS } from './resources';
 
-export const obterTodosProfessores = async () => {
+export const ObterTodosProfessores = async () => {
   try {
-    const response = await axios.get(ENDPOINTS.OBTER_TODOS);
+    const response = await axios.get(ENDPOINTS.OBTER_TODOS_PROFESSORES);
     console.log('response.data');
     return response.data;
   } catch (error) {
@@ -18,18 +18,7 @@ export const Login = async (username: string, password: string) => {
       Login: username,
       Senha: password,
     });
-    console.log('response.data', response.data);
-    return response.data;
-  } catch (error) {
-    console.error('Erro ao fazer login:', error);
-    throw error;
-  }
-};
 
-export const Alunos = async () => {
-  try {
-    const response = await axios.post(ENDPOINTS.OBTER_TODOS_ALUNOS);
-    console.log('response.data', response.data);
     return response.data;
   } catch (error) {
     console.error('Erro ao fazer login:', error);
@@ -40,7 +29,7 @@ export const Alunos = async () => {
 export const AlunosComMateria = async () => {
   try {
     const response = await axios.get(ENDPOINTS.OBTER_TODOS_ALUNOS_COM_MATERIA);
-    console.log('response.data', response.data);
+
     return response.data;
   } catch (error) {
     console.error('Erro ao fazer login:', error);
@@ -53,7 +42,7 @@ export const ResumoDeNotas = async (idAluno: number, idDisciplina: number) => {
     const response = await axios.get(
       ENDPOINTS.OBTER_RESUMO_DE_NOTAS(idAluno, idDisciplina)
     );
-    console.log('response.data', response.data);
+
     return response.data;
   } catch (error) {
     console.error('Erro ao fazer login:', error);
@@ -65,8 +54,28 @@ export const Turmas = async () => {
   try {
     const response = await axios.get(ENDPOINTS.OBTER_TODAS_TURMAS);
 
-    console.log(response);
-    console.log('response.data', response.data);
+    return response.data;
+  } catch (error) {
+    console.error('Erro ao fazer login:', error);
+    throw error;
+  }
+};
+
+export const CriarPergunta = async (pergunta: any) => {
+  try {
+    const response = await axios.post(ENDPOINTS.CONTROLLER_PERGUNTA, pergunta);
+
+    return response.data;
+  } catch (error) {
+    console.error('Erro ao fazer login:', error);
+    throw error;
+  }
+};
+
+export const ObterPerguntas = async () => {
+  try {
+    const response = await axios.get(ENDPOINTS.CONTROLLER_PERGUNTA);
+
     return response.data;
   } catch (error) {
     console.error('Erro ao fazer login:', error);

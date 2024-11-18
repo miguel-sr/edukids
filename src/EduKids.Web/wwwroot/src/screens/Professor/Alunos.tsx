@@ -19,10 +19,10 @@ export default function App() {
   const [selectedAluno, setSelectedAluno] = useState<any>(null);
 
   useEffect(() => {
-    fetchAlunos();
+    fetchAlunosComMateria();
   }, []);
 
-  const fetchAlunos = async () => {
+  const fetchAlunosComMateria = async () => {
     try {
       const alunos = await AlunosComMateria();
 

@@ -17,6 +17,7 @@ namespace EduKids.Infra.Database.Contexto
         public DbSet<Pergunta> Perguntas { get; set; }
         public DbSet<Resposta> Respostas { get; set; }
         public DbSet<AlunoComMateria> AlunosComMaterias { get; set; }
+        public DbSet<UsuarioParaGerarToken> DadosDeAutenticacao { get; set; }
 
         public ContextoMySql() : base()
         {
@@ -27,6 +28,7 @@ namespace EduKids.Infra.Database.Contexto
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<AlunoComMateria>().HasNoKey().ToView("obteralunoscommaterias");
+            modelBuilder.Entity<UsuarioParaGerarToken>().HasNoKey().ToView("obterloginesenhausuarios");
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

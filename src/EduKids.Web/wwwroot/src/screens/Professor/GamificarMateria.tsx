@@ -1,29 +1,43 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useState } from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  TouchableOpacity,
+} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { CriarPergunta, ObterPerguntas } from '../../services/actions';
+
+const PERGUNTA_PADRAO = {
+  descricao: '',
+  idDisciplina: 1,
+  respostaCorreta: '',
+  respostaErrada: '',
+};
 
 export default function GameMateria() {
   const navigation: any = useNavigation();
-  
-  const [pergunta, setPergunta] = useState('');
-  const [respostaCorreta, setRespostaCorreta] = useState('');
-  const [respostaErrada, setRespostaErrada] = useState('');
+
+  const [questionario, setQuestionario] = useState(PERGUNTA_PADRAO);
+
   const [perguntas, setPerguntas] = useState<any[]>([]);
 
-  const handleAdicionarPergunta = () => {
-    if (pergunta.trim() !== '' && respostaCorreta.trim() !== '' && respostaErrada.trim() !== '') {
-      const novaPergunta = {
-        pergunta,
-        respostas: {
-          correta: respostaCorreta,
-          errada: respostaErrada,
-        },
-      };
-      setPerguntas([...perguntas, novaPergunta]);
-      setPergunta(''); // Limpa o campo da pergunta
-      setRespostaCorreta(''); // Limpa a resposta correta
-      setRespostaErrada(''); // Limpa a resposta errada
+  useEffect(() => {
+    ObterPerguntas().then(setPerguntas);
+  }, []);
+
+  const handleAdicionarPergunta = async () => {
+    if (
+      questionario.descricao.trim() !== '' &&
+      questionario.respostaCorreta.trim() !== '' &&
+      questionario.respostaErrada.trim() !== ''
+    ) {
+      await CriarPergunta(questionario);
+      await ObterPerguntas();
+
+      setQuestionario(PERGUNTA_PADRAO);
     } else {
       alert('Por favor, preencha todos os campos!');
     }
@@ -40,22 +54,28 @@ export default function GameMateria() {
       <TextInput
         style={styles.input}
         placeholder="Digite a pergunta"
-        value={pergunta}
-        onChangeText={setPergunta}
+        value={questionario.descricao}
+        onChangeText={(text) =>
+          setQuestionario({ ...questionario, descricao: text })
+        }
       />
 
       <TextInput
         style={styles.input}
         placeholder="Resposta correta"
-        value={respostaCorreta}
-        onChangeText={setRespostaCorreta}
+        value={questionario.respostaCorreta}
+        onChangeText={(text) =>
+          setQuestionario({ ...questionario, respostaCorreta: text })
+        }
       />
 
       <TextInput
         style={styles.input}
         placeholder="Resposta errada"
-        value={respostaErrada}
-        onChangeText={setRespostaErrada}
+        value={questionario.respostaErrada}
+        onChangeText={(text) =>
+          setQuestionario({ ...questionario, respostaErrada: text })
+        }
       />
 
       <TouchableOpacity style={styles.button} onPress={handleAdicionarPergunta}>
@@ -70,9 +90,13 @@ export default function GameMateria() {
         <Text style={styles.subTitle}>Perguntas Adicionadas:</Text>
         {perguntas.map((item, index) => (
           <View key={index} style={styles.perguntaContainer}>
-            <Text style={styles.perguntaText}>{item.pergunta}</Text>
-            <Text style={styles.respostaText}>Correta: {item.respostas.correta}</Text>
-            <Text style={styles.respostaText}>Errada: {item.respostas.errada}</Text>
+            <Text style={styles.perguntaText}>{item.descricao}</Text>
+            <Text style={styles.respostaText}>
+              Correta: {item.respostaCorreta}
+            </Text>
+            <Text style={styles.respostaText}>
+              Errada: {item.respostaErrada}
+            </Text>
           </View>
         ))}
       </View>
