@@ -39,6 +39,11 @@ namespace EduKids.Infra.Repositorios
             return await contexto.Alunos.ToListAsync();
         }
 
+        public async Task<IEnumerable<AlunoComMateria>> ObterTodosComMateria()
+        {
+            return await contexto.AlunosComMaterias.ToListAsync();
+        }
+
         public async Task Remover(int id)
         {
             var aluno = await ObterPorId(id);
@@ -46,19 +51,6 @@ namespace EduKids.Infra.Repositorios
             contexto.Alunos.Remove(aluno);
 
             await contexto.SaveChangesAsync();
-        }
-
-        public async Task<Aluno> ObterUsuarioPorLoginESenha(string login, string senha)
-        {
-            var aluno = await contexto.Alunos.FirstOrDefaultAsync(aluno => aluno.Login == login)
-                ?? throw new LoginInvalidoException();
-
-            var senhaEhValida = HasherSenha.VerificarHash(senha, aluno.Senha);
-
-            if (!senhaEhValida)
-                throw new LoginInvalidoException();
-
-            return aluno;
         }
     }
 }

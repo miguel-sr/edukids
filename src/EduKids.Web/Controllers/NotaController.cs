@@ -35,7 +35,29 @@ namespace EduKids.Web.Controllers
             }
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("resumo/{idAluno:int}/{idDisciplina:int}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> ObterResumoDeNotas(int idAluno, int idDisciplina)
+        {
+            try
+            {
+                var resumo = await _servicoDeNotas.ObterResumoDeNotas(idAluno, idDisciplina);
+
+                return Ok(resumo);
+            }
+            catch (HttpRequestException ex)
+            {
+                var status = (int)(ex.StatusCode ?? HttpStatusCode.InternalServerError);
+
+                return StatusCode(status, ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpGet("{id:int}")]
         [AllowAnonymous]
         public async Task<IActionResult> ObterPorId(int id)
         {
@@ -101,7 +123,7 @@ namespace EduKids.Web.Controllers
             }
         }
 
-        [HttpPut]
+        [HttpDelete]
         [AllowAnonymous]
         public async Task<IActionResult> Remover(int id)
         {

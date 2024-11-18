@@ -9,7 +9,7 @@ namespace EduKids.Web.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]
-    public class CoordenadorController(ICoordenadorRepositorio repositorio, ServicoDeAutenticacao<Coordenador> servicoDeAutenticacao) : ControllerBase
+    public class CoordenadorController(ICoordenadorRepositorio repositorio) : ControllerBase
     {
         private readonly ServicoDeCoordenadores _servicoDeCoordenadores = new(repositorio);
 
@@ -106,7 +106,7 @@ namespace EduKids.Web.Controllers
             }
         }
 
-        [HttpPut]
+        [HttpDelete]
         [AllowAnonymous]
         public async Task<IActionResult> Remover(int id)
         {
@@ -125,28 +125,6 @@ namespace EduKids.Web.Controllers
             catch (Exception erro)
             {
                 return StatusCode((int)HttpStatusCode.InternalServerError, erro.Message);
-            }
-        }
-
-        [HttpPost("login")]
-        [AllowAnonymous]
-        public async Task<IActionResult> Login([FromBody] DadosDeAutenticacao dados)
-        {
-            try
-            {
-                var token = await servicoDeAutenticacao.Autenticar(dados);
-
-                return Ok(token);
-            }
-            catch (HttpRequestException ex)
-            {
-                var status = (int)(ex.StatusCode ?? HttpStatusCode.InternalServerError);
-
-                return StatusCode(status, ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
             }
         }
     }

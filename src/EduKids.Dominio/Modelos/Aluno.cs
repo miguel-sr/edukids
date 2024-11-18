@@ -19,4 +19,11 @@ namespace EduKids.Dominio.Modelos
         [JsonIgnore]
         public Turma? Turma { get; set; }
     }
+
+    public class AlunoComMateria
+    {
+        public int Id { get; set; }
+        public string Nome { get; set; }
+        public string Materia { get; set; }
+    }
 }

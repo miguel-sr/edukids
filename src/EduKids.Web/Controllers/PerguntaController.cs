@@ -9,9 +9,9 @@ namespace EduKids.Web.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]
-    public class PerguntaController(IPerguntaRepositorio repositorio) : ControllerBase
+    public class PerguntaController(IPerguntaRepositorio perguntaRepositorio) : ControllerBase
     {
-        private readonly ServicoDePerguntas _servicoDePerguntas = new(repositorio);
+        private readonly ServicoDePerguntas _servicoDePerguntas = new(perguntaRepositorio);
 
         [HttpGet]
         [AllowAnonymous]
@@ -19,9 +19,9 @@ namespace EduKids.Web.Controllers
         {
             try
             {
-                var notas = await _servicoDePerguntas.ObterTodos();
+                var perguntas = await _servicoDePerguntas.ObterTodos();
 
-                return Ok(notas);
+                return Ok(perguntas);
             }
             catch (HttpRequestException ex)
             {
@@ -63,9 +63,9 @@ namespace EduKids.Web.Controllers
         {
             try
             {
-                var notaDoBanco = await _servicoDePerguntas.Adicionar(pergunta);
+                var perguntaDoBanco = await _servicoDePerguntas.Adicionar(pergunta);
 
-                return Created($"aluno/{notaDoBanco.Id}", notaDoBanco);
+                return Created($"pergunta/{perguntaDoBanco.Id}", perguntaDoBanco);
             }
             catch (HttpRequestException erro)
             {
@@ -101,7 +101,7 @@ namespace EduKids.Web.Controllers
             }
         }
 
-        [HttpPut]
+        [HttpDelete]
         [AllowAnonymous]
         public async Task<IActionResult> Remover(int id)
         {

@@ -8,8 +8,9 @@ namespace EduKids.Dominio.Modelos
     {
         [Key]
         public int Id { get; set; }
-
         public string Descricao { get; set; }
+        public string RespostaCorreta { get; set; }
+        public string RespostaErrada { get; set; }
 
         [ForeignKey(nameof(Modelos.Disciplina))]
         public int IdDisciplina { get; set; }

@@ -11,9 +11,20 @@ namespace EduKids.Dominio.Modelos
         public required string Senha { get; set; }
     }
 
-    public class DadosDeAutenticacao
+    public class UsuarioParaGerarToken
     {
+        public int? Id { get; set; }
+        public string? Nome { get; set; }
+        public TipoUsuario? Tipo { get; set; } = TipoUsuario.NaoDefinido;
         public required string Login { get; set; }
         public required string Senha { get; set; }
+    }
+
+    public enum TipoUsuario
+    {
+        NaoDefinido,
+        Coordenador,
+        Professor,
+        Aluno
     }
 }

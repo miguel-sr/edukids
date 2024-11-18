@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import logo from '../../assets/BackgroundCeu.png';
 import { useNavigation } from '@react-navigation/native';
-import { obterTodosProfessores } from '../../services/actions';
+import { ObterTodosProfessores } from '../../services/actions';
 
 export default function TelaInicial() {
   const navigation: any = useNavigation();
@@ -17,7 +17,7 @@ export default function TelaInicial() {
 
   const fetchProfessores = async () => {
     try {
-      const professoresObtidos = await obterTodosProfessores();
+      const professoresObtidos = await ObterTodosProfessores();
       console.log(professoresObtidos);
       setProfessores(professoresObtidos);
     } catch (error) {
@@ -26,19 +26,7 @@ export default function TelaInicial() {
   };
 
   const handleButtonPress = (menuOption: string) => {
-    if (menuOption === 'Teste') {
-      navigation.navigate('TelaInicialJogo');
-      console.log(`Botão ${menuOption} pressionado`);
-    } else if (menuOption === 'Turmas') {
-      navigation.navigate('Turmas');
-      console.log(`Botão ${menuOption} pressionado`);
-    } else if (menuOption === 'Configurações') {
-      navigation.navigate('UpdateLoginScreen');
-      console.log(`Botão ${menuOption} pressionado`);
-    }else if (menuOption === 'GameMateria') {
-      navigation.navigate('GameMateria');
-      console.log(`Botão ${menuOption} pressionado`);
-    }
+    navigation.navigate(menuOption);
   };
 
   const handleLogout = () => {
@@ -63,13 +51,7 @@ export default function TelaInicial() {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => handleButtonPress('')}
-        >
-          <Text style={styles.buttonText}>Adicionar nova matéria</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => handleButtonPress('Configurações')}
+          onPress={() => handleButtonPress('UpdateLoginScreen')}
         >
           <Text style={styles.buttonText}>Configurações</Text>
         </TouchableOpacity>

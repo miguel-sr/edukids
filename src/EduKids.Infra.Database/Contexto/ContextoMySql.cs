@@ -2,7 +2,6 @@
 using EduKids.Dominio.Excecoes;
 using EduKids.Dominio.Modelos;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Internal;
 
 namespace EduKids.Infra.Database.Contexto
 {
@@ -17,9 +16,19 @@ namespace EduKids.Infra.Database.Contexto
         public DbSet<Nota> Notas { get; set; }
         public DbSet<Pergunta> Perguntas { get; set; }
         public DbSet<Resposta> Respostas { get; set; }
+        public DbSet<AlunoComMateria> AlunosComMaterias { get; set; }
+        public DbSet<UsuarioParaGerarToken> DadosDeAutenticacao { get; set; }
 
         public ContextoMySql() : base()
         {
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<AlunoComMateria>().HasNoKey().ToView("obteralunoscommaterias");
+            modelBuilder.Entity<UsuarioParaGerarToken>().HasNoKey().ToView("obterloginesenhausuarios");
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

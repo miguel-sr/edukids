@@ -9,7 +9,7 @@ namespace EduKids.Web.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]
-    public class AlunoController(IAlunoRepositorio repositorio, ServicoDeAutenticacao<Aluno> servicoDeAutenticacao) : ControllerBase
+    public class AlunoController(IAlunoRepositorio repositorio) : ControllerBase
     {
         private readonly ServicoDeAlunos _servicoDeAlunos = new(repositorio);
 
@@ -35,7 +35,29 @@ namespace EduKids.Web.Controllers
             }
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("com-materia")]
+        [AllowAnonymous]
+        public async Task<IActionResult> ObterTodosComMateria()
+        {
+            try
+            {
+                var alunos = await _servicoDeAlunos.ObterTodosComMateria();
+
+                return Ok(alunos);
+            }
+            catch (HttpRequestException ex)
+            {
+                var status = (int)(ex.StatusCode ?? HttpStatusCode.InternalServerError);
+
+                return StatusCode(status, ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpGet("{id:int}")]
         [AllowAnonymous]
         public async Task<IActionResult> ObterPorId(int id)
         {
@@ -106,7 +128,7 @@ namespace EduKids.Web.Controllers
             }
         }
 
-        [HttpPut]
+        [HttpDelete]
         [AllowAnonymous]
         public async Task<IActionResult> Remover(int id)
         {
@@ -125,28 +147,6 @@ namespace EduKids.Web.Controllers
             catch (Exception erro)
             {
                 return StatusCode((int)HttpStatusCode.InternalServerError, erro.Message);
-            }
-        }
-
-        [HttpPost("login")]
-        [AllowAnonymous]
-        public async Task<IActionResult> Login([FromBody] DadosDeAutenticacao dados)
-        {
-            try
-            {
-                var token = await servicoDeAutenticacao.Autenticar(dados);
-
-                return Ok(token);
-            }
-            catch (HttpRequestException ex)
-            {
-                var status = (int)(ex.StatusCode ?? HttpStatusCode.InternalServerError);
-
-                return StatusCode(status, ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
             }
         }
     }

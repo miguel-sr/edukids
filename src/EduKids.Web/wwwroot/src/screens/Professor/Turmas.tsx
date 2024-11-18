@@ -1,18 +1,21 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useState } from 'react';
-import { StyleSheet, Text, View, ImageBackground, TouchableOpacity, TextInput } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  ImageBackground,
+  TouchableOpacity,
+  TextInput,
+} from 'react-native';
 import logo from '../../assets/BackgroundCeu.png';
 import { useNavigation } from '@react-navigation/native';
+import { Turmas } from '../../services/actions';
 
 export default function App() {
   const navigation: any = useNavigation();
   const [inputText, setInputText] = useState('');
-  const [buttons, setButtons] = useState([
-    { label: '1º ANO - A' },
-    { label: '1º ANO - B' },
-    { label: '3º ANO - C' },
-    { label: '2º ANO - D' },
-  ]);
+  const [buttons, setButtons] = useState<any[]>([]);
 
   const handleButtonPress = (menuOption: string) => {
     navigation.navigate('Alunos');
@@ -33,6 +36,25 @@ export default function App() {
 
   const handleLogout = () => {
     navigation.navigate('Login'); // Certifique-se de que 'Login' é o nome correto da rota de login
+  };
+
+  useEffect(() => {
+    fetchTurmas();
+  }, []);
+
+  const fetchTurmas = async () => {
+    try {
+      const turmas = await Turmas();
+
+      turmas.forEach((turma: any) => {
+        setButtons((prevButtons) => [
+          ...prevButtons,
+          { label: turma.descricao },
+        ]);
+      });
+    } catch (error: any) {
+      console.error('Erro no login:', error.response.data);
+    }
   };
 
   return (

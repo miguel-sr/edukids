@@ -13,6 +13,7 @@
   <ItemGroup>
     <ProjectReference Include="..\EduKids.Comum\EduKids.Comum.csproj" />
     <ProjectReference Include="..\EduKids.Dominio\EduKids.Dominio.csproj" />
+    <ProjectReference Include="..\EduKids.Infra.Database\EduKids.Infra.Database.csproj" />
   </ItemGroup>
 
 </Project>

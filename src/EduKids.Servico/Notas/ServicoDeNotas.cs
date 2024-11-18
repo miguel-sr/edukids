@@ -20,6 +20,11 @@ namespace EduKids.Servico.Notas
             return await repositorio.ObterPorId(id);
         }
 
+        public async Task<ResumoDeNotas> ObterResumoDeNotas(int idAluno, int idDisciplina)
+        {
+            return await repositorio.ObterResumoDeNotas(idAluno, idDisciplina);
+        }
+
         public async Task<IEnumerable<Nota>> ObterTodos()
         {
             return await repositorio.ObterTodos();

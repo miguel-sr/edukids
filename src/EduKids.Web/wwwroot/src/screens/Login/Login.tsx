@@ -10,32 +10,46 @@ import {
 } from 'react-native';
 import logo from '../../assets/Login.png';
 import { useNavigation } from '@react-navigation/native';
-import { Picker } from '@react-native-picker/picker';
+
+// Manter o import do jwt-decode dessa forma, pois o pacote não possui export default
+import { jwtDecode } from 'jwt-decode';
 import { Login } from '../../services/actions';
 
 export default function App() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [userRole, setUserRole] = useState('Aluno');
   const [backendMessage, setBackendMessage] = useState(''); // Estado para a mensagem do backend
   const navigation: any = useNavigation();
 
   const fetchLogin = async () => {
     try {
-      const response = await Login( username, password );
+      const response = await Login(username, password);
+
       if (response) {
-        setBackendMessage(response.message || 'Login bem-sucedido!');
-        if (userRole === 'Aluno') {
-          navigation.navigate('TelaInicialAluno');
-        } else {
-          navigation.navigate('TelaInicial');
+        const decodedToken: any = jwtDecode(response);
+
+        console.log('Token decodificado:', decodedToken);
+
+        const userRole = decodedToken.role;
+
+        switch (userRole) {
+          case 'Aluno':
+            navigation.navigate('TelaInicialAluno');
+            break;
+          case 'Professor':
+            navigation.navigate('TelaInicial');
+            break;
+          case 'Coordenador':
+            navigation.navigate('TelaInicial');
+            break;
+          default:
+            console.error('Role desconhecido:', userRole);
+            break;
         }
-      } else {
-        setBackendMessage('Erro ao fazer login. Verifique as credenciais.');
       }
-    } catch (error) {
-      console.error('Erro no login:', error);
-      setBackendMessage('Erro no servidor. Tente novamente mais tarde.');
+    } catch (error: any) {
+      console.error('Erro no login:', error.response?.data || error.message);
+      setBackendMessage(error.response?.data || error.message);
     }
   };
 
@@ -67,7 +81,7 @@ export default function App() {
         />
 
         {/* Seletor de tipo de usuário */}
-        <Picker
+        {/* <Picker
           selectedValue={userRole}
           style={styles.picker}
           onValueChange={(itemValue) => setUserRole(itemValue)}
@@ -75,7 +89,7 @@ export default function App() {
           <Picker.Item label="Aluno" value="Aluno" />
           <Picker.Item label="Professor" value="Professor" />
           <Picker.Item label="Coordenador" value="Coordenador" />
-        </Picker>
+        </Picker> */}
 
         {/* Botão de login */}
         <TouchableOpacity style={styles.button} onPress={fetchLogin}>

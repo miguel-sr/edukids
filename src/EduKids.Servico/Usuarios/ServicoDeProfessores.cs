@@ -28,11 +28,6 @@ namespace EduKids.Servico.Usuarios
             return await repositorio.ObterTodos();
         }
 
-        public async Task<Professor> ObterUsuarioPorLoginESenha(string login, string senha)
-        {
-            return await repositorio.ObterUsuarioPorLoginESenha(login, senha);
-        }
-
         public async Task Remover(int id)
         {
             await repositorio.Remover(id);

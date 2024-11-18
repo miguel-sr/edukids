@@ -47,18 +47,5 @@ namespace EduKids.Infra.Repositorios
 
             await contexto.SaveChangesAsync();
         }
-
-        public async Task<Coordenador> ObterUsuarioPorLoginESenha(string login, string senha)
-        {
-            var coordenadores = await contexto.Coordenadores.FirstOrDefaultAsync(coordenadores => coordenadores.Login == login)
-                ?? throw new LoginInvalidoException();
-
-            var senhaEhValida = HasherSenha.VerificarHash(senha, coordenadores.Senha);
-
-            if (!senhaEhValida)
-                throw new LoginInvalidoException();
-
-            return coordenadores;
-        }
     }
 }

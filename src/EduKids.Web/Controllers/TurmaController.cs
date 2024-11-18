@@ -101,7 +101,7 @@ namespace EduKids.Web.Controllers
             }
         }
 
-        [HttpPut]
+        [HttpDelete]
         [AllowAnonymous]
         public async Task<IActionResult> Remover(int id)
         {

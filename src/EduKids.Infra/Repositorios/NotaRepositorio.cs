@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EduKids.Infra.Repositorios
 {
-    public class NotaRepositorio(ContextoMySql contexto) : INotaRepositorio
+    public class NotaRepositorio(ContextoMySql contexto, IAlunoRepositorio alunoRepositorio, IDisciplinaRepositorio disciplinaRepositorio) : INotaRepositorio
     {
         public async Task<Nota> Adicionar(Nota entidade)
         {
@@ -45,6 +45,28 @@ namespace EduKids.Infra.Repositorios
             contexto.Notas.Remove(nota);
 
             await contexto.SaveChangesAsync();
+        }
+
+        public async Task<ResumoDeNotas> ObterResumoDeNotas(int idAluno, int idDisciplina)
+        {
+            var aluno = await alunoRepositorio.ObterPorId(idAluno);
+            var disciplina = await disciplinaRepositorio.ObterPorId(idDisciplina);
+
+            var bimestres = await contexto.Notas
+                .Where(nota => nota.IdAluno == idAluno && nota.IdDisciplina == idDisciplina)
+                .ToListAsync();
+
+            return new()
+            {
+                Nome = aluno.Nome,
+                Disciplina = disciplina.Nome,
+                Bimestres = bimestres.Select(b => new Bimestre()
+                {
+                    Numero = b.Bimestre,
+                    ValorN1 = b.ValorN1,
+                    ValorN2 = b.ValorN2
+                }).ToList(),
+            };
         }
     }
 }
